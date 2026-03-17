@@ -11,6 +11,9 @@ public class Projectile : PooledObject
     [SerializeField] private float flightSpeed = 15f;
     [SerializeField] private float arcHeight = 3f;
 
+    [Header("착탄 분산")]
+    [SerializeField] private float spreadX = 1.5f;
+
     private Vector3 startPos;
     private Vector3 targetPos;
     private float damage;
@@ -45,7 +48,7 @@ public class Projectile : PooledObject
     private void LaunchInternal(Vector3 from, Vector3 to, float dmg)
     {
         startPos = from;
-        targetPos = to;
+        targetPos = new Vector3(to.x + Random.Range(-spreadX, spreadX), to.y, to.z);
         damage = dmg;
 
         journeyLength = Vector3.Distance(startPos, targetPos);
@@ -53,6 +56,8 @@ public class Projectile : PooledObject
         launched = true;
 
         transform.position = from;
+
+        //Debug.Log($"[Projectile] Launch from {from} to {to} dmg:{dmg:F1}");
     }
 
     private void Update()
@@ -62,23 +67,25 @@ public class Projectile : PooledObject
         traveled += flightSpeed * Time.deltaTime;
         float t = Mathf.Clamp01(traveled / journeyLength);
 
-        // 선형 보간 + 포물선 높이
-        Vector3 flat = Vector3.Lerp(startPos, targetPos, t);
-        float height = arcHeight * 4f * t * (1f - t);
-        transform.position = new Vector3(flat.x, flat.y + height, flat.z);
+        // 선형 보간 + 포물선 높이 (Vector3.Lerp 대신 직접 계산으로 할당 절감)
+        float oneMinusT = 1f - t;
+        float posX = startPos.x * oneMinusT + targetPos.x * t;
+        float posY = startPos.y * oneMinusT + targetPos.y * t + arcHeight * 4f * t * oneMinusT;
+        transform.position = new Vector3(posX, posY, startPos.z);
 
         // 진행 방향으로 회전
         if (t < 1f)
         {
             float nextT = Mathf.Clamp01((traveled + 0.1f) / journeyLength);
-            Vector3 nextFlat = Vector3.Lerp(startPos, targetPos, nextT);
-            float nextHeight = arcHeight * 4f * nextT * (1f - nextT);
-            Vector3 nextPos = new Vector3(nextFlat.x, nextFlat.y + nextHeight, nextFlat.z);
+            float nextOneMinusT = 1f - nextT;
+            float nextX = startPos.x * nextOneMinusT + targetPos.x * nextT;
+            float nextY = startPos.y * nextOneMinusT + targetPos.y * nextT + arcHeight * 4f * nextT * nextOneMinusT;
 
-            Vector3 dir = nextPos - transform.position;
-            if (dir.sqrMagnitude > 0.0001f)
+            float dirX = nextX - posX;
+            float dirY = nextY - posY;
+            if (dirX * dirX + dirY * dirY > 0.0001f)
             {
-                float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+                float angle = Mathf.Atan2(dirY, dirX) * Mathf.Rad2Deg;
                 transform.rotation = Quaternion.Euler(0f, 0f, angle);
             }
         }

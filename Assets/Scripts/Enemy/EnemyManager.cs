@@ -148,20 +148,20 @@ public class EnemyManager : MonoBehaviour
 
     private void LateUpdate()
     {
+        // swap-and-pop: O(1) 제거
         for (int i = activeEnemies.Count - 1; i >= 0; i--)
         {
             var enemy = activeEnemies[i];
-            if (enemy == null)
-            {
-                activeEnemies.RemoveAt(i);
-                continue;
-            }
+            bool remove = enemy == null || (enemy.IsDead && !enemy.gameObject.activeSelf);
 
-            if (enemy.IsDead && !enemy.gameObject.activeSelf)
-            {
-                activeEnemies.RemoveAt(i);
+            if (!remove) continue;
+
+            if (enemy != null)
                 pool.Enqueue(enemy);
-            }
+
+            int last = activeEnemies.Count - 1;
+            activeEnemies[i] = activeEnemies[last];
+            activeEnemies.RemoveAt(last);
         }
     }
 }

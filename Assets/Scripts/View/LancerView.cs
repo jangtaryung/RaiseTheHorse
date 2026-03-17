@@ -96,7 +96,6 @@ public class LancerView : MonoBehaviour, ICrewCombat
         {
             // 근거리: 즉시 찌르기
             enemyManager.ApplyDamage(targetId, damage);
-            Debug.Log($"[창병] {RuntimeModel?.DisplayName} 찌르기 dmg:{damage:F1}");
         }
         else if (spearPool != null)
         {
@@ -105,17 +104,16 @@ public class LancerView : MonoBehaviour, ICrewCombat
             if (projectile != null)
             {
                 projectile.Launch(transform.position, targetPos, damage, targetId, enemyManager);
-                Debug.Log($"[창병] {RuntimeModel?.DisplayName} 투창 dmg:{damage:F1}");
                 return;
             }
             // 풀에서 못 꺼내면 즉시 데미지 폴백
-            enemyManager.ApplyDamage(targetId, damage);
+            //enemyManager.ApplyDamage(targetId, damage);
         }
         else
         {
             // 풀 없으면 즉시 데미지 (폴백)
-            enemyManager.ApplyDamage(targetId, damage);
-            Debug.Log($"[창병] {RuntimeModel?.DisplayName} 즉시 dmg:{damage:F1}");
+            // enemyManager.ApplyDamage(targetId, damage);
+            // Debug.Log($"[창병] {RuntimeModel?.DisplayName} 즉시 dmg:{damage:F1}");
         }
     }
 
@@ -130,8 +128,8 @@ public class LancerView : MonoBehaviour, ICrewCombat
 
         if (dist <= meleeRange)
         {
+            // 근거리: 즉시 찌르기
             targetStats.TakeDamage(damage);
-            Debug.Log($"[적 창병] 찌르기 dmg:{damage:F1}");
         }
         else if (spearPool != null)
         {
@@ -139,15 +137,14 @@ public class LancerView : MonoBehaviour, ICrewCombat
             if (projectile != null)
             {
                 projectile.Launch(transform.position, targetPos, damage, targetStats);
-                Debug.Log($"[적 창병] 투창 dmg:{damage:F1}");
                 return;
             }
-            targetStats.TakeDamage(damage);
+            //targetStats.TakeDamage(damage);
         }
         else
         {
-            targetStats.TakeDamage(damage);
-            Debug.Log($"[적 창병] 즉시 dmg:{damage:F1}");
+            // targetStats.TakeDamage(damage);
+            // Debug.Log($"[적 창병] 즉시 dmg:{damage:F1}");
         }
     }
 

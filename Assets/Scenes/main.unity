@@ -265,7 +265,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5f2730e671a79147893ff28958536ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ObjectPool
-  prefab: {fileID: 0}
+  prefab: {fileID: -227530390011382033, guid: 44e805105e00a24458c518ca56cd7549, type: 3}
   initialSize: 10
 --- !u!1 &260990111
 GameObject:
@@ -905,8 +905,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5f2730e671a79147893ff28958536ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ObjectPool
-  prefab: {fileID: 0}
-  initialSize: 10
+  prefab: {fileID: -227530390011382033, guid: 44e805105e00a24458c518ca56cd7549, type: 3}
+  initialSize: 50
 --- !u!4 &648750008
 Transform:
   m_ObjectHideFlags: 0
@@ -1279,6 +1279,10 @@ PrefabInstance:
       value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 1458252285648042107, guid: c804d3c61df782a44aefc11afcb73a3d, type: 3}
+      propertyPath: bowRange
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 1458252285648042107, guid: c804d3c61df782a44aefc11afcb73a3d, type: 3}
       propertyPath: arrowPool
       value: 
       objectReference: {fileID: 1015449823}
@@ -1398,6 +1402,10 @@ PrefabInstance:
       propertyPath: lancerView
       value: 
       objectReference: {fileID: 324439638}
+    - target: {fileID: 5567644081436683216, guid: c804d3c61df782a44aefc11afcb73a3d, type: 3}
+      propertyPath: stopDistance
+      value: 0.1
+      objectReference: {fileID: 0}
     - target: {fileID: 5567644081436683216, guid: c804d3c61df782a44aefc11afcb73a3d, type: 3}
       propertyPath: swordsmanView
       value: 
@@ -1601,8 +1609,8 @@ Transform:
   m_GameObject: {fileID: 1015449821}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 31.75, y: -8.8, z: -24.5}
-  m_LocalScale: {x: 5, y: 5, z: 5}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1731045932}
@@ -1619,7 +1627,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5f2730e671a79147893ff28958536ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ObjectPool
-  prefab: {fileID: 0}
+  prefab: {fileID: 1119468872043897027, guid: b2e6eb1cd4f06664a9af8d979b5bb092, type: 3}
   initialSize: 10
 --- !u!1 &1195337249
 GameObject:
@@ -2301,8 +2309,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5f2730e671a79147893ff28958536ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ObjectPool
-  prefab: {fileID: 0}
-  initialSize: 10
+  prefab: {fileID: 1119468872043897027, guid: b2e6eb1cd4f06664a9af8d979b5bb092, type: 3}
+  initialSize: 50
 --- !u!1 &2031366905
 GameObject:
   m_ObjectHideFlags: 0

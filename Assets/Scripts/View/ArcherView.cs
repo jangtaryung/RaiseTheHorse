@@ -89,14 +89,16 @@ public class ArcherView : MonoBehaviour, ICrewCombat
             if (projectile != null)
             {
                 projectile.Launch(transform.position, targetPos, damage, targetId, enemyManager);
-                Debug.Log($"[궁병] {RuntimeModel?.DisplayName} 화살 발사 dmg:{damage:F1}");
                 return;
             }
         }
+        else
+        {
+        }
 
         // 풀이 없으면 즉시 데미지 (폴백)
-        enemyManager.ApplyDamage(targetId, damage);
-        Debug.Log($"[궁병] {RuntimeModel?.DisplayName} 즉시 dmg:{damage:F1}");
+        // enemyManager.ApplyDamage(targetId, damage);
+        // Debug.Log($"[궁병] {RuntimeModel?.DisplayName} 즉시 dmg:{damage:F1}");
     }
 
     /// <summary>적 궁병이 플레이어를 향해 화살 발사.</summary>
@@ -112,13 +114,11 @@ public class ArcherView : MonoBehaviour, ICrewCombat
             if (projectile != null)
             {
                 projectile.Launch(transform.position, targetPos, damage, targetStats);
-                Debug.Log($"[적 궁병] 화살 발사 dmg:{damage:F1}");
                 return;
             }
         }
 
-        targetStats.TakeDamage(damage);
-        Debug.Log($"[적 궁병] 즉시 dmg:{damage:F1}");
+        // targetStats.TakeDamage(damage); // 풀링 투사체로만 데미지
     }
 
     private static void ForceSetLevel(CrewMemberBase member, int targetLevel)

@@ -276,7 +276,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d4acb5fd9c76264e9ddf12a950f0517, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyChariotCombat
-  stopDistance: 1.5
+  stopDistance: 0.1
   archerView: {fileID: 1458252285648042107}
   lancerView: {fileID: 7019881311641759895}
   swordsmanView: {fileID: 1311784601594477855}

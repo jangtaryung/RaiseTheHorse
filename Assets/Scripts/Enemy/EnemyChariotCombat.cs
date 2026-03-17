@@ -19,6 +19,11 @@ public class EnemyChariotCombat : MonoBehaviour
     private Transform target;
     private ChariotStats targetStats;
 
+    // 캐싱된 권역 경계
+    private float cachedSwordsmanMax;
+    private float cachedLancerMax;
+    private float cachedArcherMax;
+
     private void Awake()
     {
         stats = GetComponent<ChariotStats>();
@@ -28,6 +33,15 @@ public class EnemyChariotCombat : MonoBehaviour
     {
         target = playerChariot;
         targetStats = playerStats;
+        RecalculateZones();
+    }
+
+    /// <summary>권역 경계를 재계산합니다.</summary>
+    private void RecalculateZones()
+    {
+        cachedSwordsmanMax = swordsmanView != null ? swordsmanView.GetEffectiveRange() : 0f;
+        cachedLancerMax = cachedSwordsmanMax + (lancerView != null ? lancerView.GetEffectiveRange() : 0f);
+        cachedArcherMax = cachedLancerMax + (archerView != null ? archerView.GetEffectiveRange() : 0f);
     }
 
     /// <summary>공유 투사체 풀을 각 View에 주입합니다.</summary>
@@ -46,28 +60,23 @@ public class EnemyChariotCombat : MonoBehaviour
         // 이동: 플레이어를 향해 접근
         if (dist > stopDistance)
         {
-            Vector3 dir = (target.position - transform.position).normalized;
-            transform.position += new Vector3(dir.x, 0f, 0f) * stats.moveSpeed * Time.deltaTime;
+            float dirX = target.position.x > transform.position.x ? 1f : -1f;
+            transform.position += new Vector3(dirX * stats.moveSpeed * Time.deltaTime, 0f, 0f);
         }
 
-        // 배타적 권역 계산
-        float swordsmanMax = swordsmanView != null ? swordsmanView.GetEffectiveRange() : 0f;
-        float lancerMax = swordsmanMax + (lancerView != null ? lancerView.GetEffectiveRange() : 0f);
-        float archerMax = lancerMax + (archerView != null ? archerView.GetEffectiveRange() : 0f);
-
         // 권역 판정 → 해당 병종에게 "공격해" 명령
-        if (dist <= swordsmanMax)
-            TryAttack(swordsmanView, target.position);
-        else if (dist <= lancerMax)
-            TryAttack(lancerView, target.position);
-        else if (dist <= archerMax)
-            TryAttack(archerView, target.position);
+        if (dist <= cachedSwordsmanMax)
+            TryAttack(swordsmanView);
+        else if (dist <= cachedLancerMax)
+            TryAttack(lancerView);
+        else if (dist <= cachedArcherMax)
+            TryAttack(archerView);
     }
 
     /// <summary>통합 공격 명령. 병종이 알아서 자기 방식대로 공격.</summary>
-    private void TryAttack(ICrewCombat crew, Vector3 targetPos)
+    private void TryAttack(ICrewCombat crew)
     {
         if (crew == null || !crew.IsReady()) return;
-        crew.ExecuteAttack(targetPos, targetStats);
+        crew.ExecuteAttack(target.position, targetStats);
     }
 }

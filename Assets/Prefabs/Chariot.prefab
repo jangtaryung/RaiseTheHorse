@@ -250,7 +250,7 @@ MonoBehaviour:
   baseDefense: 1
   maxHP: 100
   currentHP: 0
-  moveSpeed: 3
+  fallbackMoveSpeed: 3
 --- !u!114 &5567644081436683216
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -263,7 +263,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4467bed73672021478824bae9d766e3c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ChariotCombat
-  stopDistance: 1.5
+  stopDistance: 0.1
   archerView: {fileID: 0}
   lancerView: {fileID: 0}
   swordsmanView: {fileID: 0}
@@ -397,6 +397,8 @@ MonoBehaviour:
   baseDefense: 6
   baseMaxHp: 105
   attackInterval: 1
+  meleeRange: 2
+  spearPool: {fileID: 0}
 --- !u!1 &4888810360452091108
 GameObject:
   m_ObjectHideFlags: 0
@@ -511,6 +513,7 @@ MonoBehaviour:
   baseDefense: 3
   baseMaxHp: 90
   attackInterval: 1.2
+  arrowPool: {fileID: 0}
 --- !u!1 &7980004354941687579
 GameObject:
   m_ObjectHideFlags: 0

@@ -35,14 +35,13 @@ public class EnemyChariot : MonoBehaviour
     public void ResetForPool(Vector3 position, Transform playerChariot, ChariotStats playerStats)
     {
         transform.position = position;
+        gameObject.SetActive(true);
 
         if (stats != null)
             stats.currentHP = stats.maxHP;
 
         if (combat != null)
             combat.Init(playerChariot, playerStats);
-
-        gameObject.SetActive(true);
     }
 
     public void TakeDamage(float dmg)

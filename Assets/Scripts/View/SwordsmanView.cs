@@ -78,7 +78,6 @@ public class SwordsmanView : MonoBehaviour, ICrewCombat
         ConsumeAttack();
 
         enemyManager.ApplyDamage(targetId, damage);
-        Debug.Log($"[검병] {RuntimeModel?.DisplayName} 베기 dmg:{damage:F1}");
     }
 
     /// <summary>적 검병이 플레이어를 베기. 즉시 데미지.</summary>
@@ -89,7 +88,6 @@ public class SwordsmanView : MonoBehaviour, ICrewCombat
         ConsumeAttack();
 
         targetStats.TakeDamage(damage);
-        Debug.Log($"[적 검병] 베기 dmg:{damage:F1}");
     }
 
     private static void ForceSetLevel(CrewMemberBase member, int targetLevel)

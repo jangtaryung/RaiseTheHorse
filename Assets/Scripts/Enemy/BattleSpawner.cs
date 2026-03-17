@@ -12,6 +12,12 @@ public class BattleSpawner : MonoBehaviour
     public int maxEnemies = 10;
 
     private float spawnTimer;
+    private Camera mainCam;
+
+    private void Start()
+    {
+        mainCam = Camera.main;
+    }
 
     private void Update()
     {
@@ -26,11 +32,11 @@ public class BattleSpawner : MonoBehaviour
 
     private void TrySpawnEnemy()
     {
-        if (chariot == null || enemyManager == null) return;
+        if (chariot == null || enemyManager == null || mainCam == null) return;
         if (enemyManager.AliveCount >= maxEnemies) return;
 
         // 화면 오른쪽 밖에서만 생성
-        float camRight = Camera.main.transform.position.x + Camera.main.orthographicSize * Camera.main.aspect;
+        float camRight = mainCam.transform.position.x + mainCam.orthographicSize * mainCam.aspect;
         float minSpawnX = Mathf.Max(chariot.position.x + spawnDistance, camRight + 1f);
         Vector3 spawnPos = new Vector3(minSpawnX, chariot.position.y, -10f);
 

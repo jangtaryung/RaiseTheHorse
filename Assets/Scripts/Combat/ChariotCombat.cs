@@ -18,6 +18,11 @@ public class ChariotCombat : MonoBehaviour
     private EnemyManager enemyManager;
     private ChariotStats stats;
 
+    // 캐싱된 권역 경계 (스킬 변동 시 재계산)
+    private float cachedSwordsmanMax;
+    private float cachedLancerMax;
+    private float cachedArcherMax;
+
     private void Awake()
     {
         stats = GetComponent<ChariotStats>();
@@ -26,13 +31,23 @@ public class ChariotCombat : MonoBehaviour
     public void Init(EnemyManager manager)
     {
         enemyManager = manager;
+        RecalculateZones();
+    }
+
+    /// <summary>권역 경계를 재계산합니다. 스킬/장비 변경 시 호출.</summary>
+    public void RecalculateZones()
+    {
+        cachedSwordsmanMax = swordsmanView != null ? swordsmanView.GetEffectiveRange() : 0f;
+        cachedLancerMax = cachedSwordsmanMax + (lancerView != null ? lancerView.GetEffectiveRange() : 0f);
+        cachedArcherMax = cachedLancerMax + (archerView != null ? archerView.GetEffectiveRange() : 0f);
     }
 
     private void Update()
     {
         if (enemyManager == null) return;
 
-        if (!enemyManager.TryGetClosest(transform.position, out int targetId, out Vector3 targetPos))
+        // 최대 사거리(궁병) 내에서만 적 탐색
+        if (!enemyManager.TryGetClosestWithinRange(transform.position, cachedArcherMax, out int targetId, out Vector3 targetPos))
             return;
 
         float dist = Mathf.Abs(targetPos.x - transform.position.x);
@@ -40,21 +55,16 @@ public class ChariotCombat : MonoBehaviour
         // 이동
         if (dist > stopDistance)
         {
-            Vector3 dir = (targetPos - transform.position).normalized;
-            transform.position += new Vector3(dir.x, 0f, 0f) * stats.moveSpeed * Time.deltaTime;
+            float dirX = targetPos.x > transform.position.x ? 1f : -1f;
+            transform.position += new Vector3(dirX * stats.moveSpeed * Time.deltaTime, 0f, 0f);
         }
 
-        // 배타적 권역 계산
-        float swordsmanMax = swordsmanView != null ? swordsmanView.GetEffectiveRange() : 0f;
-        float lancerMax = swordsmanMax + (lancerView != null ? lancerView.GetEffectiveRange() : 0f);
-        float archerMax = lancerMax + (archerView != null ? archerView.GetEffectiveRange() : 0f);
-
         // 권역 판정 → 해당 병종에게 "공격해" 명령
-        if (dist <= swordsmanMax)
+        if (dist <= cachedSwordsmanMax)
             TryAttack(swordsmanView, targetId, targetPos);
-        else if (dist <= lancerMax)
+        else if (dist <= cachedLancerMax)
             TryAttack(lancerView, targetId, targetPos);
-        else if (dist <= archerMax)
+        else
             TryAttack(archerView, targetId, targetPos);
     }
 
@@ -69,9 +79,9 @@ public class ChariotCombat : MonoBehaviour
     private void OnDrawGizmos()
     {
         Vector3 pos = transform.position;
-        float sMax = swordsmanView != null ? swordsmanView.GetEffectiveRange() : 0f;
-        float lMax = sMax + (lancerView != null ? lancerView.GetEffectiveRange() : 0f);
-        float aMax = lMax + (archerView != null ? archerView.GetEffectiveRange() : 0f);
+        float sMax = cachedSwordsmanMax;
+        float lMax = cachedLancerMax;
+        float aMax = cachedArcherMax;
 
         float y = pos.y;
         float height = 1f;
