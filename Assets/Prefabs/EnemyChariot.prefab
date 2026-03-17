@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3374788416599286136}
   - component: {fileID: 1462858691543023698}
   - component: {fileID: 4113075005907222166}
-  m_Layer: 6
+  m_Layer: 15
   m_Name: Coachman
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 1276729435416085581}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.35, y: 0, z: -0.1}
+  m_LocalPosition: {x: -0.35, y: 0, z: -0.1}
   m_LocalScale: {x: 0.2, y: 0.26, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -124,7 +124,7 @@ GameObject:
   - component: {fileID: 6245952740565660240}
   - component: {fileID: 3999591509452333414}
   - component: {fileID: 7095507122408958207}
-  m_Layer: 7
+  m_Layer: 15
   m_Name: EnemyChariot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -225,6 +225,9 @@ MonoBehaviour:
   archerView: {fileID: 1458252285648042107}
   lancerView: {fileID: 7019881311641759895}
   swordsmanView: {fileID: 1311784601594477855}
+  archerInterval: 1.2
+  lancerInterval: 1
+  swordsmanInterval: 0.6
 --- !u!114 &6245952740565660240
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -237,8 +240,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6f9c7e9a3bf4bb4e8d7a297ede371b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ChariotStats
-  baseDefense: 1000
-  maxHP: 1000
+  baseDefense: 10
+  maxHP: 100
   currentHP: 0
   fallbackMoveSpeed: 1
 --- !u!114 &3999591509452333414
@@ -294,7 +297,7 @@ GameObject:
   - component: {fileID: 4972968211754160326}
   - component: {fileID: 5364254348655236495}
   - component: {fileID: 7019881311641759895}
-  m_Layer: 6
+  m_Layer: 15
   m_Name: Lancer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -310,7 +313,7 @@ Transform:
   m_GameObject: {fileID: 3224381986127259518}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.15, y: 0, z: -0.1}
+  m_LocalPosition: {x: 0.15, y: 0, z: -0.1}
   m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -408,7 +411,7 @@ GameObject:
   - component: {fileID: 670261828326440817}
   - component: {fileID: 6944929857946906668}
   - component: {fileID: 1458252285648042107}
-  m_Layer: 6
+  m_Layer: 15
   m_Name: Archer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -424,7 +427,7 @@ Transform:
   m_GameObject: {fileID: 4888810360452091108}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.35, y: -0.04, z: -0.1}
+  m_LocalPosition: {x: 0.35, y: -0.04, z: -0.1}
   m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -522,7 +525,7 @@ GameObject:
   - component: {fileID: 7966780659225472578}
   - component: {fileID: 2877239022293265420}
   - component: {fileID: 1311784601594477855}
-  m_Layer: 6
+  m_Layer: 15
   m_Name: Swordsman
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -538,7 +541,7 @@ Transform:
   m_GameObject: {fileID: 7980004354941687579}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.07, y: 0, z: -0.1}
+  m_LocalPosition: {x: -0.07, y: 0, z: -0.1}
   m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
   m_ConstrainProportionsScale: 0
   m_Children: []

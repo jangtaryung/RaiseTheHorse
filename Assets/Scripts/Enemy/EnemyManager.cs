@@ -21,16 +21,35 @@ public class EnemyManager : MonoBehaviour
 
     public int AliveCount => activeEnemies.Count;
 
+    private int prewarmRemaining;
+
     private void Awake()
     {
-        for (int i = 0; i < prewarmCount; i++)
-            pool.Enqueue(CreateInstance());
+        prewarmRemaining = prewarmCount;
+    }
+
+    private void Update()
+    {
+        // prewarm을 프레임당 2개씩 분산 생성 (시작 시 병목 방지)
+        if (prewarmRemaining > 0)
+        {
+            int batch = Mathf.Min(2, prewarmRemaining);
+            for (int i = 0; i < batch; i++)
+                pool.Enqueue(CreateInstance());
+            prewarmRemaining -= batch;
+        }
     }
 
     private EnemyChariot CreateInstance()
     {
+        // 프리팹을 비활성 상태로 복제 → Awake() 체인이 실행되지 않음
+        // 나중에 SetActive(true) 될 때 Awake()가 최초 1회 실행됨
+        bool prefabWasActive = enemyChariotPrefab.gameObject.activeSelf;
+        enemyChariotPrefab.gameObject.SetActive(false);
+
         var enemy = Instantiate(enemyChariotPrefab, transform);
-        enemy.gameObject.SetActive(false);
+
+        enemyChariotPrefab.gameObject.SetActive(prefabWasActive);
         return enemy;
     }
 

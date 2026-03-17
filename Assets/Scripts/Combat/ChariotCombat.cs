@@ -2,7 +2,7 @@ using UnityEngine;
 
 /// <summary>
 /// 전차 이동 + 플레이어 매니저 역할.
-/// 가장 가까운 적 전차를 한 번 탐색하고, 사거리 내 준비된 승무원이 공격합니다.
+/// 공격 권역: 검병(0~sMax) / 창병(sMax~lMax) / 궁병(lMax~aMax) 배타적 구간.
 /// </summary>
 public class ChariotCombat : MonoBehaviour
 {
@@ -31,7 +31,6 @@ public class ChariotCombat : MonoBehaviour
     {
         if (enemyManager == null) return;
 
-        // 적 전차를 한 번만 탐색
         if (!enemyManager.TryGetClosest(transform.position, out int targetId, out Vector3 targetPos))
             return;
 
@@ -44,39 +43,50 @@ public class ChariotCombat : MonoBehaviour
             transform.position += new Vector3(dir.x, 0f, 0f) * stats.moveSpeed * Time.deltaTime;
         }
 
-        // 각 승무원: 사거리 내면 공격
-        TryAttack(archerView, targetId, dist, "궁병");
-        TryAttack(lancerView, targetId, dist, "창병");
-        TryAttack(swordsmanView, targetId, dist, "검병");
+        // 배타적 권역 계산
+        float swordsmanMax = swordsmanView != null ? swordsmanView.GetEffectiveRange() : 0f;
+        float lancerMax = swordsmanMax + (lancerView != null ? lancerView.GetEffectiveRange() : 0f);
+        float archerMax = lancerMax + (archerView != null ? archerView.GetEffectiveRange() : 0f);
+
+        // 권역 판정: 해당 구간에 있을 때만 공격
+        if (dist <= swordsmanMax)
+        {
+            // 검병 권역
+            TryAttack(swordsmanView, targetId, "검병");
+        }
+        else if (dist <= lancerMax)
+        {
+            // 창병 권역
+            TryAttack(lancerView, targetId, "창병");
+        }
+        else if (dist <= archerMax)
+        {
+            // 궁병 권역
+            TryAttack(archerView, targetId, "궁병");
+        }
     }
 
-    private void TryAttack(ArcherView view, int targetId, float dist, string role)
+    private void TryAttack(ArcherView view, int targetId, string role)
     {
         if (view == null || !view.IsReady()) return;
-        if (dist > view.GetEffectiveRange()) return;
-
         float damage = view.GetDamage();
         view.ConsumeAttack();
         enemyManager.ApplyDamage(targetId, damage);
         Debug.Log($"[{role}] {view.RuntimeModel.DisplayName} dmg:{damage:F1}");
     }
 
-    private void TryAttack(LancerView view, int targetId, float dist, string role)
+    private void TryAttack(LancerView view, int targetId, string role)
     {
         if (view == null || !view.IsReady()) return;
-        if (dist > view.GetEffectiveRange()) return;
-
         float damage = view.GetDamage();
         view.ConsumeAttack();
         enemyManager.ApplyDamage(targetId, damage);
         Debug.Log($"[{role}] {view.RuntimeModel.DisplayName} dmg:{damage:F1}");
     }
 
-    private void TryAttack(SwordsmanView view, int targetId, float dist, string role)
+    private void TryAttack(SwordsmanView view, int targetId, string role)
     {
         if (view == null || !view.IsReady()) return;
-        if (dist > view.GetEffectiveRange()) return;
-
         float damage = view.GetDamage();
         view.ConsumeAttack();
         enemyManager.ApplyDamage(targetId, damage);

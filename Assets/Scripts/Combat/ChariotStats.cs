@@ -45,7 +45,7 @@ public class ChariotStats : MonoBehaviour
 
     private void OnDeath()
     {
-        Debug.Log("Chariot Destroyed");
+        Debug.Log(this.tag + "Chariot Destroyed");
         gameObject.SetActive(false);
     }
 }

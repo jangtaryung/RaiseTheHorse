@@ -32,7 +32,7 @@ public class BattleSpawner : MonoBehaviour
         // 화면 오른쪽 밖에서만 생성
         float camRight = Camera.main.transform.position.x + Camera.main.orthographicSize * Camera.main.aspect;
         float minSpawnX = Mathf.Max(chariot.position.x + spawnDistance, camRight + 1f);
-        Vector3 spawnPos = new Vector3(minSpawnX, chariot.position.y, 0f);
+        Vector3 spawnPos = new Vector3(minSpawnX, chariot.position.y, -10f);
 
         enemyManager.Spawn(spawnPos);
     }

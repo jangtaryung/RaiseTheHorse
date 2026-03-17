@@ -84,29 +84,42 @@ public class EnemyChariot : MonoBehaviour
             transform.position += new Vector3(dir.x, 0f, 0f) * stats.moveSpeed * dt;
         }
 
-        // 타이머 축적 + 공격
+        // 타이머 축적 (항상)
         archerTimer += dt;
-        if (archerTimer >= archerInterval && archerView != null && dist <= archerView.GetEffectiveRange())
-        {
-            archerTimer = 0f;
-            targetStats.TakeDamage(archerView.GetDamage());
-            Debug.Log($"[적 궁병] dmg:{archerView.GetDamage():F1}");
-        }
-
         lancerTimer += dt;
-        if (lancerTimer >= lancerInterval && lancerView != null && dist <= lancerView.GetEffectiveRange())
-        {
-            lancerTimer = 0f;
-            targetStats.TakeDamage(lancerView.GetDamage());
-            Debug.Log($"[적 창병] dmg:{lancerView.GetDamage():F1}");
-        }
-
         swordsmanTimer += dt;
-        if (swordsmanTimer >= swordsmanInterval && swordsmanView != null && dist <= swordsmanView.GetEffectiveRange())
+
+        // 배타적 권역: 검병(0~sMax) / 창병(sMax~lMax) / 궁병(lMax~aMax)
+        float swordsmanMax = swordsmanView != null ? swordsmanView.GetEffectiveRange() : 0f;
+        float lancerMax = swordsmanMax + (lancerView != null ? lancerView.GetEffectiveRange() : 0f);
+        float archerMax = lancerMax + (archerView != null ? archerView.GetEffectiveRange() : 0f);
+
+        if (dist <= swordsmanMax)
         {
-            swordsmanTimer = 0f;
-            targetStats.TakeDamage(swordsmanView.GetDamage());
-            Debug.Log($"[적 검병] dmg:{swordsmanView.GetDamage():F1}");
+            if (swordsmanTimer >= swordsmanInterval && swordsmanView != null)
+            {
+                swordsmanTimer = 0f;
+                targetStats.TakeDamage(swordsmanView.GetDamage());
+                Debug.Log($"[적 검병] dmg:{swordsmanView.GetDamage():F1}");
+            }
+        }
+        else if (dist <= lancerMax)
+        {
+            if (lancerTimer >= lancerInterval && lancerView != null)
+            {
+                lancerTimer = 0f;
+                targetStats.TakeDamage(lancerView.GetDamage());
+                Debug.Log($"[적 창병] dmg:{lancerView.GetDamage():F1}");
+            }
+        }
+        else if (dist <= archerMax)
+        {
+            if (archerTimer >= archerInterval && archerView != null)
+            {
+                archerTimer = 0f;
+                targetStats.TakeDamage(archerView.GetDamage());
+                Debug.Log($"[적 궁병] dmg:{archerView.GetDamage():F1}");
+            }
         }
     }
 
