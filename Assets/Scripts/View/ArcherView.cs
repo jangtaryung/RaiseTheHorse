@@ -1,10 +1,10 @@
 using UnityEngine;
 
 /// <summary>
-/// 궁병 GameObject. 자기 쿨타임/사거리/데미지 상태를 제공하고,
-/// 실제 공격 실행은 ChariotCombat이 판단합니다.
+/// 궁병 GameObject. 쿨타임/사거리/데미지 상태를 관리하고,
+/// 공격 시 화살(Projectile)을 발사합니다.
 /// </summary>
-public class ArcherView : MonoBehaviour
+public class ArcherView : MonoBehaviour, ICrewCombat
 {
     [Header("궁병 성장 데이터")]
     [SerializeField] private int level = 1;
@@ -24,9 +24,15 @@ public class ArcherView : MonoBehaviour
     [Header("전투")]
     [SerializeField] private float attackInterval = 1.2f;
 
+    [Header("투사체 풀")]
+    [SerializeField] private ObjectPool arrowPool;
+
     public ArcherPlayer RuntimeModel { get; private set; }
 
     private float attackTimer;
+
+    /// <summary>런타임에 투사체 풀을 주입합니다 (적 전차용 공유 풀).</summary>
+    public void SetPool(ObjectPool pool) => arrowPool = pool;
 
     public ArcherPlayer Build()
     {
@@ -51,10 +57,7 @@ public class ArcherView : MonoBehaviour
             attackTimer += Time.deltaTime;
     }
 
-    /// <summary>쿨타임이 찼는지 확인</summary>
     public bool IsReady() => attackTimer >= attackInterval;
-
-    /// <summary>공격 실행 후 쿨타임 초기화 (ChariotCombat이 호출)</summary>
     public void ConsumeAttack() => attackTimer = 0f;
 
     /// <summary>활 기본 사거리 * 궁술 숙련 보정</summary>
@@ -71,6 +74,51 @@ public class ArcherView : MonoBehaviour
         float atk = RuntimeModel != null ? RuntimeModel.GetAttack() : baseAttack;
         float skill = RuntimeModel != null ? RuntimeModel.ArcherySkill : 0f;
         return atk * (1f + skill * 0.01f);
+    }
+
+    /// <summary>화살을 발사합니다. 풀이 없으면 즉시 데미지.</summary>
+    public void ExecuteAttack(Vector3 targetPos, int targetId, EnemyManager enemyManager)
+    {
+        if (!IsReady()) return;
+        float damage = GetDamage();
+        ConsumeAttack();
+
+        if (arrowPool != null)
+        {
+            var projectile = arrowPool.Get(transform.position) as Projectile;
+            if (projectile != null)
+            {
+                projectile.Launch(transform.position, targetPos, damage, targetId, enemyManager);
+                Debug.Log($"[궁병] {RuntimeModel?.DisplayName} 화살 발사 dmg:{damage:F1}");
+                return;
+            }
+        }
+
+        // 풀이 없으면 즉시 데미지 (폴백)
+        enemyManager.ApplyDamage(targetId, damage);
+        Debug.Log($"[궁병] {RuntimeModel?.DisplayName} 즉시 dmg:{damage:F1}");
+    }
+
+    /// <summary>적 궁병이 플레이어를 향해 화살 발사.</summary>
+    public void ExecuteAttack(Vector3 targetPos, ChariotStats targetStats)
+    {
+        if (!IsReady()) return;
+        float damage = GetDamage();
+        ConsumeAttack();
+
+        if (arrowPool != null)
+        {
+            var projectile = arrowPool.Get(transform.position) as Projectile;
+            if (projectile != null)
+            {
+                projectile.Launch(transform.position, targetPos, damage, targetStats);
+                Debug.Log($"[적 궁병] 화살 발사 dmg:{damage:F1}");
+                return;
+            }
+        }
+
+        targetStats.TakeDamage(damage);
+        Debug.Log($"[적 궁병] 즉시 dmg:{damage:F1}");
     }
 
     private static void ForceSetLevel(CrewMemberBase member, int targetLevel)

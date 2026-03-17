@@ -1,7 +1,8 @@
 using UnityEngine;
 
 /// <summary>
-/// 전차 이동 + 플레이어 매니저 역할.
+/// 전차 이동 + 지휘관 역할.
+/// "누가 공격할지"만 결정하고, "어떻게 공격하느냐"는 각 View(ICrewCombat)에 위임.
 /// 공격 권역: 검병(0~sMax) / 창병(sMax~lMax) / 궁병(lMax~aMax) 배타적 구간.
 /// </summary>
 public class ChariotCombat : MonoBehaviour
@@ -9,7 +10,7 @@ public class ChariotCombat : MonoBehaviour
     [Header("접근 정지 거리")]
     public float stopDistance = 1.5f;
 
-    [Header("플레이어 참조")]
+    [Header("승무원 참조")]
     [SerializeField] private ArcherView archerView;
     [SerializeField] private LancerView lancerView;
     [SerializeField] private SwordsmanView swordsmanView;
@@ -48,48 +49,69 @@ public class ChariotCombat : MonoBehaviour
         float lancerMax = swordsmanMax + (lancerView != null ? lancerView.GetEffectiveRange() : 0f);
         float archerMax = lancerMax + (archerView != null ? archerView.GetEffectiveRange() : 0f);
 
-        // 권역 판정: 해당 구간에 있을 때만 공격
+        // 권역 판정 → 해당 병종에게 "공격해" 명령
         if (dist <= swordsmanMax)
-        {
-            // 검병 권역
-            TryAttack(swordsmanView, targetId, "검병");
-        }
+            TryAttack(swordsmanView, targetId, targetPos);
         else if (dist <= lancerMax)
-        {
-            // 창병 권역
-            TryAttack(lancerView, targetId, "창병");
-        }
+            TryAttack(lancerView, targetId, targetPos);
         else if (dist <= archerMax)
-        {
-            // 궁병 권역
-            TryAttack(archerView, targetId, "궁병");
-        }
+            TryAttack(archerView, targetId, targetPos);
     }
 
-    private void TryAttack(ArcherView view, int targetId, string role)
+    /// <summary>통합 공격 명령. 병종이 알아서 자기 방식대로 공격.</summary>
+    private void TryAttack(ICrewCombat crew, int targetId, Vector3 targetPos)
     {
-        if (view == null || !view.IsReady()) return;
-        float damage = view.GetDamage();
-        view.ConsumeAttack();
-        enemyManager.ApplyDamage(targetId, damage);
-        Debug.Log($"[{role}] {view.RuntimeModel.DisplayName} dmg:{damage:F1}");
+        if (crew == null || !crew.IsReady()) return;
+        crew.ExecuteAttack(targetPos, targetId, enemyManager);
     }
 
-    private void TryAttack(LancerView view, int targetId, string role)
+    // ===== 디버그: 배타적 권역 시각화 =====
+    private void OnDrawGizmos()
     {
-        if (view == null || !view.IsReady()) return;
-        float damage = view.GetDamage();
-        view.ConsumeAttack();
-        enemyManager.ApplyDamage(targetId, damage);
-        Debug.Log($"[{role}] {view.RuntimeModel.DisplayName} dmg:{damage:F1}");
+        Vector3 pos = transform.position;
+        float sMax = swordsmanView != null ? swordsmanView.GetEffectiveRange() : 0f;
+        float lMax = sMax + (lancerView != null ? lancerView.GetEffectiveRange() : 0f);
+        float aMax = lMax + (archerView != null ? archerView.GetEffectiveRange() : 0f);
+
+        float y = pos.y;
+        float height = 1f;
+
+        Gizmos.color = new Color(1f, 0.2f, 0.2f, 0.3f);
+        DrawZone(pos, 0f, sMax, y, height);
+        Gizmos.color = new Color(1f, 0.2f, 0.2f, 0.8f);
+        DrawZoneBorder(pos, 0f, sMax, y, height);
+
+        Gizmos.color = new Color(0.2f, 0.4f, 1f, 0.3f);
+        DrawZone(pos, sMax, lMax, y, height);
+        Gizmos.color = new Color(0.2f, 0.4f, 1f, 0.8f);
+        DrawZoneBorder(pos, sMax, lMax, y, height);
+
+        Gizmos.color = new Color(0.2f, 1f, 0.3f, 0.3f);
+        DrawZone(pos, lMax, aMax, y, height);
+        Gizmos.color = new Color(0.2f, 1f, 0.3f, 0.8f);
+        DrawZoneBorder(pos, lMax, aMax, y, height);
     }
 
-    private void TryAttack(SwordsmanView view, int targetId, string role)
+    private void DrawZone(Vector3 center, float minDist, float maxDist, float y, float height)
     {
-        if (view == null || !view.IsReady()) return;
-        float damage = view.GetDamage();
-        view.ConsumeAttack();
-        enemyManager.ApplyDamage(targetId, damage);
-        Debug.Log($"[{role}] {view.RuntimeModel.DisplayName} dmg:{damage:F1}");
+        Vector3 rCenter = new Vector3(center.x + (minDist + maxDist) * 0.5f, y, 0f);
+        Vector3 rSize = new Vector3(maxDist - minDist, height, 0f);
+        Gizmos.DrawCube(rCenter, rSize);
+
+        Vector3 lCenter = new Vector3(center.x - (minDist + maxDist) * 0.5f, y, 0f);
+        Gizmos.DrawCube(lCenter, rSize);
+    }
+
+    private void DrawZoneBorder(Vector3 center, float minDist, float maxDist, float y, float height)
+    {
+        float halfH = height * 0.5f;
+
+        Gizmos.DrawLine(new Vector3(center.x + maxDist, y - halfH, 0f), new Vector3(center.x + maxDist, y + halfH, 0f));
+        if (minDist > 0f)
+            Gizmos.DrawLine(new Vector3(center.x + minDist, y - halfH, 0f), new Vector3(center.x + minDist, y + halfH, 0f));
+
+        Gizmos.DrawLine(new Vector3(center.x - maxDist, y - halfH, 0f), new Vector3(center.x - maxDist, y + halfH, 0f));
+        if (minDist > 0f)
+            Gizmos.DrawLine(new Vector3(center.x - minDist, y - halfH, 0f), new Vector3(center.x - minDist, y + halfH, 0f));
     }
 }

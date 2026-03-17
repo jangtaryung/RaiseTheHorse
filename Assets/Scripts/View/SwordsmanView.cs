@@ -1,10 +1,10 @@
 using UnityEngine;
 
 /// <summary>
-/// 검병 GameObject. 자기 쿨타임/사거리/데미지 상태를 제공하고,
-/// 실제 공격 실행은 ChariotCombat이 판단합니다.
+/// 검병 GameObject. 근거리 전용.
+/// 쿨타임이 차면 즉시 근접 데미지를 적용합니다.
 /// </summary>
-public class SwordsmanView : MonoBehaviour
+public class SwordsmanView : MonoBehaviour, ICrewCombat
 {
     [Header("검병 성장 데이터")]
     [SerializeField] private int level = 1;
@@ -68,6 +68,28 @@ public class SwordsmanView : MonoBehaviour
         float basePower = RuntimeModel != null ? RuntimeModel.GetBasePower() : swordBasePower;
         float skill = RuntimeModel != null ? RuntimeModel.SwordSkill : 0f;
         return (atk + basePower) * (1f + skill * 0.04f);
+    }
+
+    /// <summary>근접 베기. 즉시 데미지.</summary>
+    public void ExecuteAttack(Vector3 targetPos, int targetId, EnemyManager enemyManager)
+    {
+        if (!IsReady()) return;
+        float damage = GetDamage();
+        ConsumeAttack();
+
+        enemyManager.ApplyDamage(targetId, damage);
+        Debug.Log($"[검병] {RuntimeModel?.DisplayName} 베기 dmg:{damage:F1}");
+    }
+
+    /// <summary>적 검병이 플레이어를 베기. 즉시 데미지.</summary>
+    public void ExecuteAttack(Vector3 targetPos, ChariotStats targetStats)
+    {
+        if (!IsReady()) return;
+        float damage = GetDamage();
+        ConsumeAttack();
+
+        targetStats.TakeDamage(damage);
+        Debug.Log($"[적 검병] 베기 dmg:{damage:F1}");
     }
 
     private static void ForceSetLevel(CrewMemberBase member, int targetLevel)

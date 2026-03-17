@@ -221,6 +221,52 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 251c319098b7a374a9b4e690ac08c1a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SwordsmanView
+--- !u!1 &247872768
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 247872769}
+  - component: {fileID: 247872770}
+  m_Layer: 16
+  m_Name: LancerPool
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &247872769
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 247872768}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 764278044}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &247872770
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 247872768}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e5f2730e671a79147893ff28958536ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ObjectPool
+  prefab: {fileID: 0}
+  initialSize: 10
 --- !u!1 &260990111
 GameObject:
   m_ObjectHideFlags: 0
@@ -830,6 +876,52 @@ MonoBehaviour:
   spawnInterval: 2
   spawnDistance: 15
   maxEnemies: 10
+--- !u!1 &648750006
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 648750008}
+  - component: {fileID: 648750007}
+  m_Layer: 15
+  m_Name: EnemySpearPool
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &648750007
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 648750006}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e5f2730e671a79147893ff28958536ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ObjectPool
+  prefab: {fileID: 0}
+  initialSize: 10
+--- !u!4 &648750008
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 648750006}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1757778444}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &729474979
 GameObject:
   m_ObjectHideFlags: 0
@@ -921,6 +1013,11 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!4 &764278044 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4972968211754160326, guid: c804d3c61df782a44aefc11afcb73a3d, type: 3}
+  m_PrefabInstance: {fileID: 960403202}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &770341190
 GameObject:
   m_ObjectHideFlags: 0
@@ -1181,6 +1278,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 16
       objectReference: {fileID: 0}
+    - target: {fileID: 1458252285648042107, guid: c804d3c61df782a44aefc11afcb73a3d, type: 3}
+      propertyPath: arrowPool
+      value: 
+      objectReference: {fileID: 1015449823}
     - target: {fileID: 1490096011495068762, guid: c804d3c61df782a44aefc11afcb73a3d, type: 3}
       propertyPath: m_Name
       value: Chariot
@@ -1199,6 +1300,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2246187628159352030, guid: c804d3c61df782a44aefc11afcb73a3d, type: 3}
       propertyPath: fallbackMoveSpeed
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2877239022293265420, guid: c804d3c61df782a44aefc11afcb73a3d, type: 3}
+      propertyPath: m_Color.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2877239022293265420, guid: c804d3c61df782a44aefc11afcb73a3d, type: 3}
+      propertyPath: m_Color.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2877239022293265420, guid: c804d3c61df782a44aefc11afcb73a3d, type: 3}
+      propertyPath: m_Color.r
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3224381986127259518, guid: c804d3c61df782a44aefc11afcb73a3d, type: 3}
@@ -1289,6 +1402,38 @@ PrefabInstance:
       propertyPath: swordsmanView
       value: 
       objectReference: {fileID: 169406170}
+    - target: {fileID: 6944929857946906668, guid: c804d3c61df782a44aefc11afcb73a3d, type: 3}
+      propertyPath: m_Color.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6944929857946906668, guid: c804d3c61df782a44aefc11afcb73a3d, type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6944929857946906668, guid: c804d3c61df782a44aefc11afcb73a3d, type: 3}
+      propertyPath: m_Color.r
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7019881311641759895, guid: c804d3c61df782a44aefc11afcb73a3d, type: 3}
+      propertyPath: spearPool
+      value: 
+      objectReference: {fileID: 247872770}
+    - target: {fileID: 7095507122408958207, guid: c804d3c61df782a44aefc11afcb73a3d, type: 3}
+      propertyPath: archerView
+      value: 
+      objectReference: {fileID: 1731045931}
+    - target: {fileID: 7095507122408958207, guid: c804d3c61df782a44aefc11afcb73a3d, type: 3}
+      propertyPath: lancerView
+      value: 
+      objectReference: {fileID: 324439638}
+    - target: {fileID: 7095507122408958207, guid: c804d3c61df782a44aefc11afcb73a3d, type: 3}
+      propertyPath: coachmanView
+      value: 
+      objectReference: {fileID: 1858635992}
+    - target: {fileID: 7095507122408958207, guid: c804d3c61df782a44aefc11afcb73a3d, type: 3}
+      propertyPath: swordsmanView
+      value: 
+      objectReference: {fileID: 169406170}
     - target: {fileID: 7966780659225472578, guid: c804d3c61df782a44aefc11afcb73a3d, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.07
@@ -1303,7 +1448,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 670261828326440817, guid: c804d3c61df782a44aefc11afcb73a3d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1015449822}
+    - targetCorrespondingSourceObject: {fileID: 4972968211754160326, guid: c804d3c61df782a44aefc11afcb73a3d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 247872769}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c804d3c61df782a44aefc11afcb73a3d, type: 3}
 --- !u!4 &960403203 stripped
@@ -1424,6 +1575,52 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!1 &1015449821
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1015449822}
+  - component: {fileID: 1015449823}
+  m_Layer: 0
+  m_Name: ArrowPool
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1015449822
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1015449821}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 31.75, y: -8.8, z: -24.5}
+  m_LocalScale: {x: 5, y: 5, z: 5}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1731045932}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1015449823
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1015449821}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e5f2730e671a79147893ff28958536ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ObjectPool
+  prefab: {fileID: 0}
+  initialSize: 10
 --- !u!1 &1195337249
 GameObject:
   m_ObjectHideFlags: 0
@@ -1833,6 +2030,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76e9dedbd91deba479712468db203701, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ArcherView
+--- !u!4 &1731045932 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 670261828326440817, guid: c804d3c61df782a44aefc11afcb73a3d, type: 3}
+  m_PrefabInstance: {fileID: 960403202}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1757778443
 GameObject:
   m_ObjectHideFlags: 0
@@ -1862,7 +2064,9 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1932040874}
+  - {fileID: 648750008}
   m_Father: {fileID: 260990112}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1757778445
@@ -1881,6 +2085,8 @@ MonoBehaviour:
   prewarmCount: 10
   playerChariot: {fileID: 960403203}
   playerStats: {fileID: 960403204}
+  enemyArrowPool: {fileID: 1932040875}
+  enemySpearPool: {fileID: 648750007}
 --- !u!1 &1834117394
 GameObject:
   m_ObjectHideFlags: 0
@@ -2051,6 +2257,52 @@ MonoBehaviour:
   - {fileID: 770341191}
   - {fileID: 967954217}
   scrollSpeed: 0.2
+--- !u!1 &1932040873
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1932040874}
+  - component: {fileID: 1932040875}
+  m_Layer: 15
+  m_Name: EnemyArrowPool
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1932040874
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1932040873}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1757778444}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1932040875
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1932040873}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e5f2730e671a79147893ff28958536ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ObjectPool
+  prefab: {fileID: 0}
+  initialSize: 10
 --- !u!1 &2031366905
 GameObject:
   m_ObjectHideFlags: 0

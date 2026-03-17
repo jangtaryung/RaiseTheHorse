@@ -16,6 +16,10 @@ public class EnemyManager : MonoBehaviour
     public Transform playerChariot;
     public ChariotStats playerStats;
 
+    [Header("적 투사체 공유 풀")]
+    public ObjectPool enemyArrowPool;
+    public ObjectPool enemySpearPool;
+
     private readonly List<EnemyChariot> activeEnemies = new List<EnemyChariot>();
     private readonly Queue<EnemyChariot> pool = new Queue<EnemyChariot>();
 
@@ -72,6 +76,7 @@ public class EnemyManager : MonoBehaviour
             enemy.Init(playerChariot, playerStats);
         }
 
+        enemy.SetPools(enemyArrowPool, enemySpearPool);
         activeEnemies.Add(enemy);
     }
 
@@ -119,6 +124,17 @@ public class EnemyManager : MonoBehaviour
         }
 
         return id >= 0;
+    }
+
+    /// <summary>적 전차의 현재 위치를 가져옵니다.</summary>
+    public bool TryGetPosition(int id, out Vector3 position)
+    {
+        position = default;
+        if (id < 0 || id >= activeEnemies.Count) return false;
+        if (activeEnemies[id] == null || activeEnemies[id].IsDead) return false;
+
+        position = activeEnemies[id].transform.position;
+        return true;
     }
 
     /// <summary>적 전차에 데미지를 적용합니다.</summary>
