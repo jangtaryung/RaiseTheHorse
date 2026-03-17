@@ -1,0 +1,8 @@
+프로젝트 이름
+					- 가제 RaiseTheHorse.
+개발툴
+					- 유니티 6000.3.11f1 버전. (최신 LTS버전)
+					- vsCode (Claude.code)
+플랫폼
+					- Android. start.
+
