@@ -348,7 +348,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46642c3d5f1146a4f9e8e6cedc7a0932, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyChariot
-  expReward: 20
+  expReward: 50
 --- !u!114 &7095507122408958207
 MonoBehaviour:
   m_ObjectHideFlags: 0
