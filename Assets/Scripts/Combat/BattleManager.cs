@@ -10,7 +10,7 @@ public class BattleManager : MonoBehaviour
     [SerializeField] private EnemyManager enemyManager;
     [SerializeField] private ChariotCombat chariotCombat;
 
-    private void Awake()
+    private void Start()
     {
         if (chariotCombat != null)
             chariotCombat.Init(enemyManager);

@@ -23,23 +23,13 @@ public class ChariotCombat : MonoBehaviour, IChariotCombat
     private float cachedLancerMax;
     private float cachedArcherMax;
 
-    private void Awake()
-    {
-        var stats = GetComponent<ChariotStats>();
-        if (stats != null)
-            chariot = stats.GetChariot();
-    }
-
     public void Init(EnemyManager manager)
     {
         enemyManager = manager;
 
-        if (chariot == null)
-        {
-            var stats = GetComponent<ChariotStats>();
-            if (stats != null)
-                chariot = stats.GetChariot();
-        }
+        var stats = GetComponent<ChariotStats>();
+        if (stats != null)
+            chariot = stats.GetChariot();
 
         var hitbox = GetComponent<ChariotHitbox>();
         if (hitbox != null && chariot != null)
