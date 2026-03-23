@@ -30,13 +30,20 @@ public class Projectile : PooledObject
     public void Launch(Vector3 from, Vector3 to, float dmg, LayerMask targetLayers)
     {
         hitLayers = targetLayers;
-        LaunchInternal(from, to, dmg);
+        LaunchInternal(from, to, dmg, spreadX);
     }
 
-    private void LaunchInternal(Vector3 from, Vector3 to, float dmg)
+    /// <summary>착탄 분산을 외부에서 지정하는 오버로드. 궁술 숙련 등으로 분산 감소 시 사용.</summary>
+    public void Launch(Vector3 from, Vector3 to, float dmg, LayerMask targetLayers, float overrideSpread)
+    {
+        hitLayers = targetLayers;
+        LaunchInternal(from, to, dmg, overrideSpread);
+    }
+
+    private void LaunchInternal(Vector3 from, Vector3 to, float dmg, float spread)
     {
         startPos = from;
-        targetPos = new Vector3(to.x + Random.Range(-spreadX, spreadX), to.y, to.z);
+        targetPos = new Vector3(to.x + Random.Range(-spread, spread), to.y, to.z);
         damage = dmg;
 
         journeyLength = Vector3.Distance(startPos, targetPos);

@@ -29,6 +29,12 @@ public class ChariotHitbox : MonoBehaviour
 
     public Chariot GetChariot() => chariot;
 
+    private void Start()
+    {
+        if (chariotCollisionLayers == 0)
+            Debug.LogWarning($"[ChariotHitbox] {gameObject.name}: chariotCollisionLayers가 미설정. 전차 충돌 데미지가 작동하지 않습니다.", this);
+    }
+
     private void Update()
     {
         if (chariot == null || chariot.GetCurrentHP() <= 0f) return;

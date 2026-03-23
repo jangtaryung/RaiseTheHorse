@@ -170,6 +170,16 @@ public class EnemyManager : MonoBehaviour
         activeEnemies[id].TakeDamage(damage);
     }
 
+    /// <summary>적을 공격자 반대 방향으로 밀어냅니다.</summary>
+    public void ApplyKnockback(int id, float knockbackDistance, Vector3 attackerPos)
+    {
+        if (id < 0 || id >= activeEnemies.Count) return;
+        if (activeEnemies[id] == null || activeEnemies[id].IsDead) return;
+
+        float dirX = activeEnemies[id].transform.position.x > attackerPos.x ? 1f : -1f;
+        activeEnemies[id].transform.position += new Vector3(dirX * knockbackDistance, 0f, 0f);
+    }
+
     private void LateUpdate()
     {
         for (int i = activeEnemies.Count - 1; i >= 0; i--)

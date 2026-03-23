@@ -24,6 +24,9 @@ public class LancerView : MonoBehaviour, ICrewCombat
     [Header("전투")]
     [SerializeField] private float attackInterval = 1.0f;
 
+    [Header("넉백")]
+    [SerializeField] private float baseKnockback = 1.5f;
+
     [Header("근거리/원거리 경계")]
     [SerializeField] private float meleeRange = 2.0f;
 
@@ -81,6 +84,13 @@ public class LancerView : MonoBehaviour, ICrewCombat
         return (atk + basePower) * (1f + skill * 0.01f);
     }
 
+    /// <summary>창술 숙련에 따른 넉백 거리. 스킬 1당 2% 증가.</summary>
+    public float GetKnockbackDistance()
+    {
+        float skill = RuntimeModel != null ? RuntimeModel.LanceSkill : 0f;
+        return baseKnockback * (1f + skill * 0.02f);
+    }
+
     /// <summary>
     /// 거리에 따라 공격 방식 자동 선택.
     /// 근거리(meleeRange 이하) → 즉시 찌르기 데미지
@@ -96,26 +106,19 @@ public class LancerView : MonoBehaviour, ICrewCombat
 
         if (dist <= meleeRange)
         {
-            // 근거리: 즉시 찌르기
+            // 근거리: 즉시 찌르기 + 넉백
             enemyManager.ApplyDamage(targetId, damage);
+            enemyManager.ApplyKnockback(targetId, GetKnockbackDistance(), transform.position);
         }
         else if (spearPool != null)
         {
-            // 원거리: 투창
+            // 원거리: 투창 (넉백은 근거리에서만 적용)
             var projectile = spearPool.Get(transform.position) as Projectile;
             if (projectile != null)
             {
                 projectile.Launch(transform.position, targetPos, damage, targetLayers);
                 return;
             }
-            // 풀에서 못 꺼내면 즉시 데미지 폴백
-            //enemyManager.ApplyDamage(targetId, damage);
-        }
-        else
-        {
-            // 풀 없으면 즉시 데미지 (폴백)
-            // enemyManager.ApplyDamage(targetId, damage);
-            // Debug.Log($"[창병] {RuntimeModel?.DisplayName} 즉시 dmg:{damage:F1}");
         }
     }
 

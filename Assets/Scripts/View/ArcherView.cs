@@ -22,7 +22,8 @@ public class ArcherView : MonoBehaviour, ICrewCombat
     [SerializeField] private float baseMaxHp = 90f;
 
     [Header("전투")]
-    [SerializeField] private float attackInterval = 1.2f;
+    [SerializeField] private float baseAttackInterval = 1.2f;
+    [SerializeField] private float baseSpreadX = 1.5f;
 
     [Header("투사체 풀")]
     [SerializeField] private ObjectPool arrowPool;
@@ -54,12 +55,26 @@ public class ArcherView : MonoBehaviour, ICrewCombat
 
     private void Update()
     {
-        if (attackTimer < attackInterval)
+        if (attackTimer < GetEffectiveAttackInterval())
             attackTimer += Time.deltaTime;
     }
 
-    public bool IsReady() => attackTimer >= attackInterval;
+    public bool IsReady() => attackTimer >= GetEffectiveAttackInterval();
     public void ConsumeAttack() => attackTimer = 0f;
+
+    /// <summary>궁술 숙련에 따른 실효 재장전 시간. 스킬 1당 1% 감소, 최소 0.3초.</summary>
+    public float GetEffectiveAttackInterval()
+    {
+        float skill = RuntimeModel != null ? RuntimeModel.ArcherySkill : 0f;
+        return Mathf.Max(0.3f, baseAttackInterval * (1f - skill * 0.01f));
+    }
+
+    /// <summary>궁술 숙련에 따른 실효 착탄 분산. 스킬 1당 2% 감소, 최소 0.2.</summary>
+    public float GetEffectiveSpread()
+    {
+        float skill = RuntimeModel != null ? RuntimeModel.ArcherySkill : 0f;
+        return Mathf.Max(0.2f, baseSpreadX * (1f - skill * 0.02f));
+    }
 
     /// <summary>활 기본 사거리 * 궁술 숙련 보정</summary>
     public float GetEffectiveRange()
@@ -83,6 +98,7 @@ public class ArcherView : MonoBehaviour, ICrewCombat
     {
         if (!IsReady()) return;
         float damage = GetDamage();
+        float spread = GetEffectiveSpread();
         ConsumeAttack();
 
         if (arrowPool != null)
@@ -90,17 +106,10 @@ public class ArcherView : MonoBehaviour, ICrewCombat
             var projectile = arrowPool.Get(transform.position) as Projectile;
             if (projectile != null)
             {
-                projectile.Launch(transform.position, targetPos, damage, targetLayers);
+                projectile.Launch(transform.position, targetPos, damage, targetLayers, spread);
                 return;
             }
         }
-        else
-        {
-        }
-
-        // 풀이 없으면 즉시 데미지 (폴백)
-        // enemyManager.ApplyDamage(targetId, damage);
-        // Debug.Log($"[궁병] {RuntimeModel?.DisplayName} 즉시 dmg:{damage:F1}");
     }
 
     /// <summary>적 궁병이 플레이어를 향해 화살 발사.</summary>
@@ -108,6 +117,7 @@ public class ArcherView : MonoBehaviour, ICrewCombat
     {
         if (!IsReady()) return;
         float damage = GetDamage();
+        float spread = GetEffectiveSpread();
         ConsumeAttack();
 
         if (arrowPool != null)
@@ -115,7 +125,7 @@ public class ArcherView : MonoBehaviour, ICrewCombat
             var projectile = arrowPool.Get(transform.position) as Projectile;
             if (projectile != null)
             {
-                projectile.Launch(transform.position, targetPos, damage, targetLayers);
+                projectile.Launch(transform.position, targetPos, damage, targetLayers, spread);
                 return;
             }
         }

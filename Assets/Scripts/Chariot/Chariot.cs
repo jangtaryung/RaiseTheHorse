@@ -18,6 +18,9 @@ public class Chariot
     public float GetCurrentHP() => currentHP;
     public float GetMaxHP() => GetChariotDurability();
 
+    /// <summary>회피 발생 시 호출되는 콜백 (UI/이펙트 연동용).</summary>
+    public event Action OnEvasion;
+
     public Chariot(
         HorseSpec horse,
         ArmorSpec armor,
@@ -45,8 +48,16 @@ public class Chariot
 
     public void TakeDamage(float dmg)
     {
-        if (godMode) 
+        if (godMode)
             return;
+
+        // 회피 판정: 마부 숙련도 + 무게 기반 회피율
+        float evasion = GetCurrentEvasion();
+        if (UnityEngine.Random.value < evasion)
+        {
+            OnEvasion?.Invoke();
+            return;
+        }
 
         float finalDamage = Mathf.Max(1f, dmg - GetChariotDefense());
         currentHP -= finalDamage;
