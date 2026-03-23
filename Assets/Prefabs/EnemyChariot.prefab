@@ -481,6 +481,7 @@ MonoBehaviour:
   baseDefense: 6
   baseMaxHp: 105
   attackInterval: 1
+  baseKnockback: 1.5
   meleeRange: 2
   spearPool: {fileID: 0}
   targetLayers:
@@ -599,7 +600,8 @@ MonoBehaviour:
   baseAttack: 18
   baseDefense: 3
   baseMaxHp: 90
-  attackInterval: 1.2
+  baseAttackInterval: 1.2
+  baseSpreadX: 1.5
   arrowPool: {fileID: 0}
   targetLayers:
     serializedVersion: 2
