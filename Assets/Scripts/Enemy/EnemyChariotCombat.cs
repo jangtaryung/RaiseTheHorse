@@ -5,19 +5,19 @@ using UnityEngine;
 /// "누가 공격할지"만 결정하고, "어떻게 공격하느냐"는 각 View(ICrewCombat)에 위임.
 /// 공격 권역: 검병(0~sMax) / 창병(sMax~lMax) / 궁병(lMax~aMax) 배타적 구간.
 /// </summary>
-public class EnemyChariotCombat : MonoBehaviour
+public class EnemyChariotCombat : MonoBehaviour, IChariotCombat
 {
     [Header("접근 정지 거리")]
-    public float stopDistance = 1.5f;
+    [SerializeField] private float stopDistance = 1.5f;
 
     [Header("승무원 참조")]
     [SerializeField] private ArcherView archerView;
     [SerializeField] private LancerView lancerView;
     [SerializeField] private SwordsmanView swordsmanView;
 
-    private ChariotStats stats;
+    private Chariot chariot;
     private Transform target;
-    private ChariotStats targetStats;
+    private Chariot targetChariot;
 
     // 캐싱된 권역 경계
     private float cachedSwordsmanMax;
@@ -26,17 +26,30 @@ public class EnemyChariotCombat : MonoBehaviour
 
     private void Awake()
     {
-        stats = GetComponent<ChariotStats>();
+        var stats = GetComponent<ChariotStats>();
+        if (stats != null)
+            chariot = stats.GetChariot();
     }
 
-    public void Init(Transform playerChariot, ChariotStats playerStats)
+    public void Init(Transform playerChariot, Chariot playerChariotModel)
     {
         target = playerChariot;
-        targetStats = playerStats;
+        targetChariot = playerChariotModel;
+
+        if (chariot == null)
+        {
+            var stats = GetComponent<ChariotStats>();
+            if (stats != null)
+                chariot = stats.GetChariot();
+        }
+
+        var hitbox = GetComponent<ChariotHitbox>();
+        if (hitbox != null && chariot != null)
+            hitbox.SetChariot(chariot);
+
         RecalculateZones();
     }
 
-    /// <summary>권역 경계를 재계산합니다.</summary>
     private void RecalculateZones()
     {
         cachedSwordsmanMax = swordsmanView != null ? swordsmanView.GetEffectiveRange() : 0f;
@@ -44,7 +57,6 @@ public class EnemyChariotCombat : MonoBehaviour
         cachedArcherMax = cachedLancerMax + (archerView != null ? archerView.GetEffectiveRange() : 0f);
     }
 
-    /// <summary>공유 투사체 풀을 각 View에 주입합니다.</summary>
     public void SetPools(ObjectPool arrowPool, ObjectPool spearPool)
     {
         if (archerView != null) archerView.SetPool(arrowPool);
@@ -53,18 +65,21 @@ public class EnemyChariotCombat : MonoBehaviour
 
     private void Update()
     {
-        if (stats.currentHP <= 0f || target == null || targetStats == null) return;
+        if (chariot == null || chariot.GetCurrentHP() <= 0f || target == null || targetChariot == null) return;
+
+        // Battle 상태가 아니면 이동/공격 중단
+        if (GameStateManager.Instance != null &&
+            GameStateManager.Instance.CurrentState != GameState.Battle)
+            return;
 
         float dist = Mathf.Abs(target.position.x - transform.position.x);
 
-        // 이동: 플레이어를 향해 접근
         if (dist > stopDistance)
         {
             float dirX = target.position.x > transform.position.x ? 1f : -1f;
-            transform.position += new Vector3(dirX * stats.moveSpeed * Time.deltaTime, 0f, 0f);
+            transform.position += new Vector3(dirX * chariot.GetCurrentMoveSpeed() * Time.deltaTime, 0f, 0f);
         }
 
-        // 권역 판정 → 해당 병종에게 "공격해" 명령
         if (dist <= cachedSwordsmanMax)
             TryAttack(swordsmanView);
         else if (dist <= cachedLancerMax)
@@ -73,10 +88,24 @@ public class EnemyChariotCombat : MonoBehaviour
             TryAttack(archerView);
     }
 
-    /// <summary>통합 공격 명령. 병종이 알아서 자기 방식대로 공격.</summary>
+    public void GetZoneBoundaries(out float swordsmanMax, out float lancerMax, out float archerMax)
+    {
+        if (cachedArcherMax > 0f)
+        {
+            swordsmanMax = cachedSwordsmanMax;
+            lancerMax = cachedLancerMax;
+            archerMax = cachedArcherMax;
+            return;
+        }
+
+        swordsmanMax = swordsmanView != null ? swordsmanView.GetEffectiveRange() : 0f;
+        lancerMax = swordsmanMax + (lancerView != null ? lancerView.GetEffectiveRange() : 0f);
+        archerMax = lancerMax + (archerView != null ? archerView.GetEffectiveRange() : 0f);
+    }
+
     private void TryAttack(ICrewCombat crew)
     {
         if (crew == null || !crew.IsReady()) return;
-        crew.ExecuteAttack(target.position, targetStats);
+        crew.ExecuteAttack(target.position, targetChariot);
     }
 }

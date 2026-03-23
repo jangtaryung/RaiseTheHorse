@@ -231,7 +231,7 @@ GameObject:
   m_Component:
   - component: {fileID: 247872769}
   - component: {fileID: 247872770}
-  m_Layer: 16
+  m_Layer: 17
   m_Name: LancerPool
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -316,6 +316,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BattleManager
   enemyManager: {fileID: 1757778445}
   chariotCombat: {fileID: 960403206}
+--- !u!1 &301962069 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1490096011495068762, guid: c804d3c61df782a44aefc11afcb73a3d, type: 3}
+  m_PrefabInstance: {fileID: 960403202}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &324439638 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7019881311641759895, guid: c804d3c61df782a44aefc11afcb73a3d, type: 3}
@@ -875,7 +880,58 @@ MonoBehaviour:
   enemyManager: {fileID: 1757778445}
   spawnInterval: 2
   spawnDistance: 15
-  maxEnemies: 10
+  maxEnemies: 1
+--- !u!1 &622101879
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 622101881}
+  - component: {fileID: 622101880}
+  m_Layer: 5
+  m_Name: EnemyHPBarManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &622101880
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 622101879}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 994f8995f60089f46a942db1ea5970b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyHPBarManager
+  prewarmCount: 20
+  barSize: {x: 80, y: 8}
+  worldOffset: {x: 0, y: 0.5, z: 0}
+--- !u!224 &622101881
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 622101879}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1834117398}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &648750006
 GameObject:
   m_ObjectHideFlags: 0
@@ -1162,7 +1218,7 @@ MonoBehaviour:
   - {fileID: 1326056661}
   - {fileID: 541063772}
   - {fileID: 2115004734}
-  scrollSpeed: 0.1
+  scrollSpeed: 1
 --- !u!1 &797417959
 GameObject:
   m_ObjectHideFlags: 0
@@ -1276,7 +1332,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1276729435416085581, guid: c804d3c61df782a44aefc11afcb73a3d, type: 3}
       propertyPath: m_Layer
-      value: 16
+      value: 17
+      objectReference: {fileID: 0}
+    - target: {fileID: 1311784601594477855, guid: c804d3c61df782a44aefc11afcb73a3d, type: 3}
+      propertyPath: baseAttack
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 1311784601594477855, guid: c804d3c61df782a44aefc11afcb73a3d, type: 3}
+      propertyPath: baseDefense
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1311784601594477855, guid: c804d3c61df782a44aefc11afcb73a3d, type: 3}
+      propertyPath: swordBasePower
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1458252285648042107, guid: c804d3c61df782a44aefc11afcb73a3d, type: 3}
       propertyPath: bowRange
@@ -1286,17 +1354,49 @@ PrefabInstance:
       propertyPath: arrowPool
       value: 
       objectReference: {fileID: 1015449823}
+    - target: {fileID: 1458252285648042107, guid: c804d3c61df782a44aefc11afcb73a3d, type: 3}
+      propertyPath: baseMaxHp
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 1458252285648042107, guid: c804d3c61df782a44aefc11afcb73a3d, type: 3}
+      propertyPath: baseAttack
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1458252285648042107, guid: c804d3c61df782a44aefc11afcb73a3d, type: 3}
+      propertyPath: baseDefense
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1458252285648042107, guid: c804d3c61df782a44aefc11afcb73a3d, type: 3}
+      propertyPath: bowBasePower
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1458252285648042107, guid: c804d3c61df782a44aefc11afcb73a3d, type: 3}
+      propertyPath: attackInterval
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1458252285648042107, guid: c804d3c61df782a44aefc11afcb73a3d, type: 3}
+      propertyPath: targetLayers.m_Bits
+      value: 32768
+      objectReference: {fileID: 0}
     - target: {fileID: 1490096011495068762, guid: c804d3c61df782a44aefc11afcb73a3d, type: 3}
       propertyPath: m_Name
       value: Chariot
       objectReference: {fileID: 0}
     - target: {fileID: 1490096011495068762, guid: c804d3c61df782a44aefc11afcb73a3d, type: 3}
       propertyPath: m_Layer
-      value: 16
+      value: 17
       objectReference: {fileID: 0}
     - target: {fileID: 2246187628159352030, guid: c804d3c61df782a44aefc11afcb73a3d, type: 3}
       propertyPath: maxHP
       value: 10000
+      objectReference: {fileID: 0}
+    - target: {fileID: 2246187628159352030, guid: c804d3c61df782a44aefc11afcb73a3d, type: 3}
+      propertyPath: godMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2246187628159352030, guid: c804d3c61df782a44aefc11afcb73a3d, type: 3}
+      propertyPath: isPlayer
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2246187628159352030, guid: c804d3c61df782a44aefc11afcb73a3d, type: 3}
       propertyPath: baseDefense
@@ -1304,6 +1404,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2246187628159352030, guid: c804d3c61df782a44aefc11afcb73a3d, type: 3}
       propertyPath: fallbackMoveSpeed
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2246187628159352030, guid: c804d3c61df782a44aefc11afcb73a3d, type: 3}
+      propertyPath: horseBaseMoveSpeed
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2877239022293265420, guid: c804d3c61df782a44aefc11afcb73a3d, type: 3}
@@ -1320,7 +1424,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3224381986127259518, guid: c804d3c61df782a44aefc11afcb73a3d, type: 3}
       propertyPath: m_Layer
-      value: 16
+      value: 17
+      objectReference: {fileID: 0}
+    - target: {fileID: 4259219521952646152, guid: c804d3c61df782a44aefc11afcb73a3d, type: 3}
+      propertyPath: isPlayer
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4259219521952646152, guid: c804d3c61df782a44aefc11afcb73a3d, type: 3}
       propertyPath: archerView
@@ -1344,7 +1452,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4888810360452091108, guid: c804d3c61df782a44aefc11afcb73a3d, type: 3}
       propertyPath: m_Layer
-      value: 16
+      value: 17
       objectReference: {fileID: 0}
     - target: {fileID: 4972968211754160326, guid: c804d3c61df782a44aefc11afcb73a3d, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1423,9 +1531,29 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7019881311641759895, guid: c804d3c61df782a44aefc11afcb73a3d, type: 3}
+      propertyPath: baseMaxHp
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 7019881311641759895, guid: c804d3c61df782a44aefc11afcb73a3d, type: 3}
       propertyPath: spearPool
       value: 
       objectReference: {fileID: 247872770}
+    - target: {fileID: 7019881311641759895, guid: c804d3c61df782a44aefc11afcb73a3d, type: 3}
+      propertyPath: baseAttack
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 7019881311641759895, guid: c804d3c61df782a44aefc11afcb73a3d, type: 3}
+      propertyPath: baseDefense
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7019881311641759895, guid: c804d3c61df782a44aefc11afcb73a3d, type: 3}
+      propertyPath: spearBasePower
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7019881311641759895, guid: c804d3c61df782a44aefc11afcb73a3d, type: 3}
+      propertyPath: targetLayers.m_Bits
+      value: 32768
+      objectReference: {fileID: 0}
     - target: {fileID: 7095507122408958207, guid: c804d3c61df782a44aefc11afcb73a3d, type: 3}
       propertyPath: archerView
       value: 
@@ -1439,9 +1567,21 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1858635992}
     - target: {fileID: 7095507122408958207, guid: c804d3c61df782a44aefc11afcb73a3d, type: 3}
+      propertyPath: chariotCombat
+      value: 
+      objectReference: {fileID: 960403206}
+    - target: {fileID: 7095507122408958207, guid: c804d3c61df782a44aefc11afcb73a3d, type: 3}
       propertyPath: swordsmanView
       value: 
       objectReference: {fileID: 169406170}
+    - target: {fileID: 7095507122408958207, guid: c804d3c61df782a44aefc11afcb73a3d, type: 3}
+      propertyPath: chariotCombatTargets.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7095507122408958207, guid: c804d3c61df782a44aefc11afcb73a3d, type: 3}
+      propertyPath: 'chariotCombatTargets.Array.data[0]'
+      value: 
+      objectReference: {fileID: 960403206}
     - target: {fileID: 7966780659225472578, guid: c804d3c61df782a44aefc11afcb73a3d, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.07
@@ -1452,7 +1592,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7980004354941687579, guid: c804d3c61df782a44aefc11afcb73a3d, type: 3}
       propertyPath: m_Layer
-      value: 16
+      value: 17
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1463,7 +1603,13 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 4972968211754160326, guid: c804d3c61df782a44aefc11afcb73a3d, type: 3}
       insertIndex: -1
       addedObject: {fileID: 247872769}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1490096011495068762, guid: c804d3c61df782a44aefc11afcb73a3d, type: 3}
+      insertIndex: 5
+      addedObject: {fileID: 960403211}
+    - targetCorrespondingSourceObject: {fileID: 1490096011495068762, guid: c804d3c61df782a44aefc11afcb73a3d, type: 3}
+      insertIndex: 6
+      addedObject: {fileID: 960403210}
   m_SourcePrefab: {fileID: 100100000, guid: c804d3c61df782a44aefc11afcb73a3d, type: 3}
 --- !u!4 &960403203 stripped
 Transform:
@@ -1475,7 +1621,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2246187628159352030, guid: c804d3c61df782a44aefc11afcb73a3d, type: 3}
   m_PrefabInstance: {fileID: 960403202}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 301962069}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b6f9c7e9a3bf4bb4e8d7a297ede371b5, type: 3}
@@ -1486,12 +1632,79 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5567644081436683216, guid: c804d3c61df782a44aefc11afcb73a3d, type: 3}
   m_PrefabInstance: {fileID: 960403202}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 301962069}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4467bed73672021478824bae9d766e3c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ChariotCombat
+--- !u!61 &960403210
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 301962069}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1, y: 1}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
+--- !u!114 &960403211
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 301962069}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8d534c2233c32f46a44206b9831534f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ChariotHitbox
+  boxSize: {x: 1, y: 1}
+  boxOffset: {x: 0, y: 0}
+  hitLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  collisionCheckInterval: 0.3
+  chariotCollisionLayers:
+    serializedVersion: 2
+    m_Bits: 32768
 --- !u!1 &967954216
 GameObject:
   m_ObjectHideFlags: 0
@@ -1593,7 +1806,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1015449822}
   - component: {fileID: 1015449823}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: ArrowPool
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2092,9 +2305,10 @@ MonoBehaviour:
   enemyChariotPrefab: {fileID: 5906184295945089733, guid: f9e76292d1dbffc4192a41aeb67e1480, type: 3}
   prewarmCount: 10
   playerChariot: {fileID: 960403203}
-  playerStats: {fileID: 960403204}
+  playerChariotStats: {fileID: 960403204}
   enemyArrowPool: {fileID: 1932040875}
   enemySpearPool: {fileID: 648750007}
+  enemyHPBarManager: {fileID: 622101880}
 --- !u!1 &1834117394
 GameObject:
   m_ObjectHideFlags: 0
@@ -2107,6 +2321,7 @@ GameObject:
   - component: {fileID: 1834117397}
   - component: {fileID: 1834117396}
   - component: {fileID: 1834117395}
+  - component: {fileID: 1834117399}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -2188,7 +2403,8 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 622101881}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -2196,6 +2412,21 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &1834117399
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1834117394}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2b74c15aa7ef8c4091eb9f1f30ddea9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerHPUI
+  playerChariotStats: {fileID: 960403204}
+  barSize: {x: 300, y: 30}
+  anchoredPosition: {x: 10, y: -10}
 --- !u!114 &1858635992 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4113075005907222166, guid: c804d3c61df782a44aefc11afcb73a3d, type: 3}
@@ -2264,7 +2495,7 @@ MonoBehaviour:
   - {fileID: 1195337250}
   - {fileID: 770341191}
   - {fileID: 967954217}
-  scrollSpeed: 0.2
+  scrollSpeed: 1
 --- !u!1 &1932040873
 GameObject:
   m_ObjectHideFlags: 0
@@ -2637,7 +2868,7 @@ MonoBehaviour:
   - {fileID: 148718136}
   - {fileID: 1370297191}
   - {fileID: 1719149011}
-  scrollSpeed: 0.5
+  scrollSpeed: 1
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

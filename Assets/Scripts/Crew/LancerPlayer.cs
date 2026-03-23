@@ -37,6 +37,7 @@ public class LancerPlayer : CrewMemberBase
         LanceSkill += 0.12f;
     }
 
+    public float GetBasePower() => Spear != null ? Spear.BasePower : 0f;
     public float GetSpearWeight() => Spear != null ? Spear.Weight : 0f;
     public float GetBaseRange() => Spear != null ? Spear.Range : 0f;
 

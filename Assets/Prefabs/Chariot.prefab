@@ -120,8 +120,8 @@ GameObject:
   m_Component:
   - component: {fileID: 5337842011860867324}
   - component: {fileID: 2583561059037308477}
-  - component: {fileID: 4259219521952646152}
   - component: {fileID: 2246187628159352030}
+  - component: {fileID: 4259219521952646152}
   - component: {fileID: 5567644081436683216}
   - component: {fileID: 7095507122408958207}
   m_Layer: 7
@@ -209,6 +209,28 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &2246187628159352030
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1490096011495068762}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6f9c7e9a3bf4bb4e8d7a297ede371b5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ChariotStats
+  godMode: 0
+  horsePullCapacity: 800
+  horseBaseMoveSpeed: 12
+  horseWeight: 400
+  armorDurability: 500
+  armorDefense: 30
+  armorWeight: 300
+  wheelAccel: 5
+  wheelCollisionDamage: 50
+  wheelWeight: 100
 --- !u!114 &4259219521952646152
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -222,35 +244,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ChariotCrewController
   chariotStats: {fileID: 2246187628159352030}
-  horsePullCapacity: 800
-  horseBaseMoveSpeed: 12
-  horseWeight: 400
-  armorDurability: 500
-  armorDefense: 30
-  armorWeight: 300
-  wheelAccel: 5
-  wheelCollisionDamage: 50
-  wheelWeight: 100
   coachmanView: {fileID: 4113075005907222166}
   archerView: {fileID: 1458252285648042107}
   lancerView: {fileID: 7019881311641759895}
   swordsmanView: {fileID: 1311784601594477855}
---- !u!114 &2246187628159352030
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1490096011495068762}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b6f9c7e9a3bf4bb4e8d7a297ede371b5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ChariotStats
-  baseDefense: 1
-  maxHP: 100
-  currentHP: 0
-  fallbackMoveSpeed: 3
 --- !u!114 &5567644081436683216
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -264,9 +261,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ChariotCombat
   stopDistance: 0.1
-  archerView: {fileID: 0}
-  lancerView: {fileID: 0}
-  swordsmanView: {fileID: 0}
+  archerView: {fileID: 1458252285648042107}
+  lancerView: {fileID: 7019881311641759895}
+  swordsmanView: {fileID: 1311784601594477855}
 --- !u!114 &7095507122408958207
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -279,10 +276,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df95d631814faff40ad75f24b395a674, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StatDebugUI
-  archerView: {fileID: 0}
-  lancerView: {fileID: 0}
-  swordsmanView: {fileID: 0}
-  coachmanView: {fileID: 0}
+  archerView: {fileID: 1458252285648042107}
+  lancerView: {fileID: 7019881311641759895}
+  swordsmanView: {fileID: 1311784601594477855}
+  coachmanView: {fileID: 4113075005907222166}
+  chariotCombatTargets: []
 --- !u!1 &3224381986127259518
 GameObject:
   m_ObjectHideFlags: 0

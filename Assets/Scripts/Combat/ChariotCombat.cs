@@ -5,10 +5,10 @@ using UnityEngine;
 /// "누가 공격할지"만 결정하고, "어떻게 공격하느냐"는 각 View(ICrewCombat)에 위임.
 /// 공격 권역: 검병(0~sMax) / 창병(sMax~lMax) / 궁병(lMax~aMax) 배타적 구간.
 /// </summary>
-public class ChariotCombat : MonoBehaviour
+public class ChariotCombat : MonoBehaviour, IChariotCombat
 {
     [Header("접근 정지 거리")]
-    public float stopDistance = 1.5f;
+    [SerializeField] private float stopDistance = 1.5f;
 
     [Header("승무원 참조")]
     [SerializeField] private ArcherView archerView;
@@ -16,7 +16,7 @@ public class ChariotCombat : MonoBehaviour
     [SerializeField] private SwordsmanView swordsmanView;
 
     private EnemyManager enemyManager;
-    private ChariotStats stats;
+    private Chariot chariot;
 
     // 캐싱된 권역 경계 (스킬 변동 시 재계산)
     private float cachedSwordsmanMax;
@@ -25,12 +25,26 @@ public class ChariotCombat : MonoBehaviour
 
     private void Awake()
     {
-        stats = GetComponent<ChariotStats>();
+        var stats = GetComponent<ChariotStats>();
+        if (stats != null)
+            chariot = stats.GetChariot();
     }
 
     public void Init(EnemyManager manager)
     {
         enemyManager = manager;
+
+        if (chariot == null)
+        {
+            var stats = GetComponent<ChariotStats>();
+            if (stats != null)
+                chariot = stats.GetChariot();
+        }
+
+        var hitbox = GetComponent<ChariotHitbox>();
+        if (hitbox != null && chariot != null)
+            hitbox.SetChariot(chariot);
+
         RecalculateZones();
     }
 
@@ -44,7 +58,12 @@ public class ChariotCombat : MonoBehaviour
 
     private void Update()
     {
-        if (enemyManager == null) return;
+        if (enemyManager == null || chariot == null) return;
+
+        // Battle 상태가 아니면 이동/공격 중단
+        if (GameStateManager.Instance != null &&
+            GameStateManager.Instance.CurrentState != GameState.Battle)
+            return;
 
         // 최대 사거리(궁병) 내에서만 적 탐색
         if (!enemyManager.TryGetClosestWithinRange(transform.position, cachedArcherMax, out int targetId, out Vector3 targetPos))
@@ -56,7 +75,7 @@ public class ChariotCombat : MonoBehaviour
         if (dist > stopDistance)
         {
             float dirX = targetPos.x > transform.position.x ? 1f : -1f;
-            transform.position += new Vector3(dirX * stats.moveSpeed * Time.deltaTime, 0f, 0f);
+            transform.position += new Vector3(dirX * chariot.GetCurrentMoveSpeed() * Time.deltaTime, 0f, 0f);
         }
 
         // 권역 판정 → 해당 병종에게 "공격해" 명령
@@ -68,11 +87,25 @@ public class ChariotCombat : MonoBehaviour
             TryAttack(archerView, targetId, targetPos);
     }
 
-    /// <summary>통합 공격 명령. 병종이 알아서 자기 방식대로 공격.</summary>
     private void TryAttack(ICrewCombat crew, int targetId, Vector3 targetPos)
     {
         if (crew == null || !crew.IsReady()) return;
         crew.ExecuteAttack(targetPos, targetId, enemyManager);
+    }
+
+    public void GetZoneBoundaries(out float swordsmanMax, out float lancerMax, out float archerMax)
+    {
+        if (cachedArcherMax > 0f)
+        {
+            swordsmanMax = cachedSwordsmanMax;
+            lancerMax = cachedLancerMax;
+            archerMax = cachedArcherMax;
+            return;
+        }
+
+        swordsmanMax = swordsmanView != null ? swordsmanView.GetEffectiveRange() : 0f;
+        lancerMax = swordsmanMax + (lancerView != null ? lancerView.GetEffectiveRange() : 0f);
+        archerMax = lancerMax + (archerView != null ? archerView.GetEffectiveRange() : 0f);
     }
 
     // ===== 디버그: 배타적 권역 시각화 =====

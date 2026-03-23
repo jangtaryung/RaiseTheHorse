@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class Chariot
@@ -9,16 +10,52 @@ public class Chariot
     public ArmorSpec Armor { get; private set; }
     public WheelSpec Wheel { get; private set; }
 
+    // HP
+    private float currentHP;
+    private bool godMode;
+    private Action onDeath;
+
+    public float GetCurrentHP() => currentHP;
+    public float GetMaxHP() => GetChariotDurability();
+
     public Chariot(
         HorseSpec horse,
         ArmorSpec armor,
         WheelSpec wheel,
-        ChariotCrew crew)
+        ChariotCrew crew,
+        bool godMode = false,
+        Action onDeath = null)
     {
         Horse = horse;
         Armor = armor;
         Wheel = wheel;
         Crew = crew;
+        this.godMode = godMode;
+        this.onDeath = onDeath;
+        currentHP = GetMaxHP();
+    }
+
+    public void SetGodMode(bool enabled) => godMode = enabled;
+    public void SetOnDeath(Action callback) => onDeath = callback;
+
+    public void ResetHP()
+    {
+        currentHP = GetMaxHP();
+    }
+
+    public void TakeDamage(float dmg)
+    {
+        if (godMode) 
+            return;
+
+        float finalDamage = Mathf.Max(1f, dmg - GetChariotDefense());
+        currentHP -= finalDamage;
+
+        if (currentHP <= 0f)
+        {
+            currentHP = 0f;
+            onDeath?.Invoke();
+        }
     }
 
     public void Embark(ChariotCrew crew)
@@ -48,50 +85,45 @@ public class Chariot
         float totalWeight = GetTotalWeight();
         float pullCapacity = Horse != null ? Horse.PullCapacity : 1f;
 
-        // 무게 패널티: 허용 중량보다 무거우면 급격히 저하
-        float loadRatio = totalWeight / pullCapacity;  // 1.0 이하면 정상
+        float loadRatio = totalWeight / pullCapacity;
         float loadPenalty;
 
         if (loadRatio <= 1.0f)
         {
-            // 약간의 중량 증가에 따른 소폭 감소 (최대 -20%)
-            loadPenalty = 1f - (loadRatio - 0.5f) * 0.4f; // 0.5~1.0 구간
+            loadPenalty = 1f - (loadRatio - 0.5f) * 0.4f;
             loadPenalty = Mathf.Clamp(loadPenalty, 0.8f, 1f);
         }
         else
         {
-            // 초과하는 만큼 급격히 속도 감소
             loadPenalty = 1f - (loadRatio - 1.0f) * 0.7f;
             loadPenalty = Mathf.Clamp(loadPenalty, 0.2f, 0.8f);
         }
 
-        // 마부의 전차 운용 숙련 보정
         float handling = (Crew != null && Crew.Coachman != null) ? Crew.Coachman.ChariotHandlingSkill : 0f;
-        float handlingBonus = 1f + handling * 0.02f; // 숙련 50 → +100%
+        float handlingBonus = 1f + handling * 0.02f;
 
         return baseSpeed * loadPenalty * handlingBonus;
     }
 
-    // ====== 회피율: 기본 + 마부 숙련 - 무게 패널티 ======
+    // ====== 회피율 ======
     public float GetCurrentEvasion()
     {
-        float baseEvasion = 0.05f; // 5%
+        float baseEvasion = 0.05f;
         float handling = (Crew != null && Crew.Coachman != null) ? Crew.Coachman.ChariotHandlingSkill : 0f;
-        float handlingBonus = handling * 0.003f; // 숙련 50 → +15%
+        float handlingBonus = handling * 0.003f;
 
         float totalWeight = GetTotalWeight();
         float pullCapacity = Horse != null ? Horse.PullCapacity : 1f;
         float loadRatio = totalWeight / pullCapacity;
 
-        // 무거울수록 회피율 감소
-        float weightPenalty = (loadRatio - 1f) * 0.05f; // 초과 0.5 → -2.5% 등
+        float weightPenalty = (loadRatio - 1f) * 0.05f;
         if (weightPenalty < 0f) weightPenalty = 0f;
 
         float evasion = baseEvasion + handlingBonus - weightPenalty;
         return Mathf.Clamp(evasion, 0.01f, 0.6f);
     }
 
-    // ====== 장갑: 내구도 & 방어 ======
+    // ====== 장갑 ======
     public float GetChariotDurability()
     {
         return Armor != null ? Armor.Durability : 0f;
@@ -102,7 +134,7 @@ public class Chariot
         return Armor != null ? Armor.Defense : 0f;
     }
 
-    // ====== 바퀴: 가속 & 충돌 데미지 ======
+    // ====== 바퀴 ======
     public float GetAccel()
     {
         float accel = Wheel != null ? Wheel.Accel : 0f;
@@ -121,22 +153,7 @@ public class Chariot
         float baseCollision = Wheel != null ? Wheel.CollisionDamage : 0f;
         float totalWeight = GetTotalWeight();
 
-        // 무거울수록 충돌 데미지 증가
-        float weightFactor = 1f + (totalWeight / 500f); // 500 단위당 +100%
+        float weightFactor = 1f + (totalWeight / 500f);
         return baseCollision * weightFactor;
-    }
-
-    // ====== 예시 행동 메서드 ======
-    public void Move(float deltaTime)
-    {
-        float speed = GetCurrentMoveSpeed();
-        float distance = speed * deltaTime;
-        Debug.Log($"Chariot moves {distance:F2} units. Speed={speed:F2}, Weight={GetTotalWeight():F1}");
-    }
-
-    public void CollisionAttack()
-    {
-        float damage = GetCollisionDamage();
-        Debug.Log($"Chariot collides for {damage:F1} damage!");
     }
 }

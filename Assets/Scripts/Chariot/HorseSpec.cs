@@ -14,4 +14,16 @@ public class HorseSpec
         BaseMoveSpeed = baseMoveSpeed;
         Weight = weight;
     }
+
+    // ===== 업그레이드 적용 메서드 =====
+
+    public void ApplySpeedUpgrade(float delta)
+    {
+        BaseMoveSpeed = Mathf.Max(0.1f, BaseMoveSpeed + delta);
+    }
+
+    public void ApplyPullUpgrade(float delta)
+    {
+        PullCapacity = Mathf.Max(1f, PullCapacity + delta);
+    }
 }

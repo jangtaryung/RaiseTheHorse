@@ -37,6 +37,7 @@ public class ArcherPlayer : CrewMemberBase
         ArcherySkill += 0.15f;
     }
 
+    public float GetBasePower() => Bow != null ? Bow.BasePower : 0f;
     public float GetBowWeight() => Bow != null ? Bow.Weight : 0f;
 
     public float GetBaseRange()

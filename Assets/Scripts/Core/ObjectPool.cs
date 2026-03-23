@@ -11,7 +11,7 @@ public class ObjectPool : MonoBehaviour
     public PooledObject prefab;
 
     [Header("초기 생성 개수")]
-    public int initialSize = 10;
+    [SerializeField] private int initialSize = 10;
 
     private readonly Queue<PooledObject> pool = new Queue<PooledObject>();
     private int activeCount = 0;

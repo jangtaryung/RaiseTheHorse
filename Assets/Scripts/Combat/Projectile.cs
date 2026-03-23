@@ -2,8 +2,7 @@ using UnityEngine;
 
 /// <summary>
 /// 포물선 궤적으로 날아가는 범용 투사체. 화살, 투창 등에 사용.
-/// ObjectPool과 연동되며, Launch()로 발사 → 도착 시 데미지 적용 → 풀 반환.
-/// 플레이어→적(EnemyManager), 적→플레이어(ChariotStats) 양방향 지원.
+/// ObjectPool과 연동되며, Launch()로 발사 → 도착 시 OverlapBox로 피격 판정 → 풀 반환.
 /// </summary>
 public class Projectile : PooledObject
 {
@@ -14,34 +13,23 @@ public class Projectile : PooledObject
     [Header("착탄 분산")]
     [SerializeField] private float spreadX = 1.5f;
 
+    [Header("착탄 판정")]
+    [SerializeField] private Vector2 hitBoxSize = new Vector2(1f, 1f);
+
+    private LayerMask hitLayers;
+
     private Vector3 startPos;
     private Vector3 targetPos;
     private float damage;
 
-    // 데미지 대상 (둘 중 하나만 사용)
-    private int targetId;
-    private EnemyManager enemyManager;
-    private ChariotStats targetStats;
-
     private float journeyLength;
     private float traveled;
     private bool launched;
+    private float randomArcHeight;
 
-    /// <summary>플레이어 → 적 공격용</summary>
-    public void Launch(Vector3 from, Vector3 to, float dmg, int enemyId, EnemyManager manager)
+    public void Launch(Vector3 from, Vector3 to, float dmg, LayerMask targetLayers)
     {
-        enemyManager = manager;
-        targetId = enemyId;
-        targetStats = null;
-        LaunchInternal(from, to, dmg);
-    }
-
-    /// <summary>적 → 플레이어 공격용</summary>
-    public void Launch(Vector3 from, Vector3 to, float dmg, ChariotStats player)
-    {
-        targetStats = player;
-        enemyManager = null;
-        targetId = -1;
+        hitLayers = targetLayers;
         LaunchInternal(from, to, dmg);
     }
 
@@ -54,10 +42,9 @@ public class Projectile : PooledObject
         journeyLength = Vector3.Distance(startPos, targetPos);
         traveled = 0f;
         launched = true;
+        randomArcHeight = Random.Range(1f, arcHeight);
 
         transform.position = from;
-
-        //Debug.Log($"[Projectile] Launch from {from} to {to} dmg:{dmg:F1}");
     }
 
     private void Update()
@@ -67,19 +54,17 @@ public class Projectile : PooledObject
         traveled += flightSpeed * Time.deltaTime;
         float t = Mathf.Clamp01(traveled / journeyLength);
 
-        // 선형 보간 + 포물선 높이 (Vector3.Lerp 대신 직접 계산으로 할당 절감)
         float oneMinusT = 1f - t;
         float posX = startPos.x * oneMinusT + targetPos.x * t;
-        float posY = startPos.y * oneMinusT + targetPos.y * t + arcHeight * 4f * t * oneMinusT;
+        float posY = startPos.y * oneMinusT + targetPos.y * t + randomArcHeight * 4f * t * oneMinusT;
         transform.position = new Vector3(posX, posY, startPos.z);
 
-        // 진행 방향으로 회전
         if (t < 1f)
         {
             float nextT = Mathf.Clamp01((traveled + 0.1f) / journeyLength);
             float nextOneMinusT = 1f - nextT;
             float nextX = startPos.x * nextOneMinusT + targetPos.x * nextT;
-            float nextY = startPos.y * nextOneMinusT + targetPos.y * nextT + arcHeight * 4f * nextT * nextOneMinusT;
+            float nextY = startPos.y * nextOneMinusT + targetPos.y * nextT + randomArcHeight * 4f * nextT * nextOneMinusT;
 
             float dirX = nextX - posX;
             float dirY = nextY - posY;
@@ -90,16 +75,26 @@ public class Projectile : PooledObject
             }
         }
 
-        // 도착
         if (t >= 1f)
         {
-            if (enemyManager != null)
-                enemyManager.ApplyDamage(targetId, damage);
-            else if (targetStats != null)
-                targetStats.TakeDamage(damage);
-
+            ApplyHit();
             launched = false;
             ReturnToPool();
+        }
+    }
+
+    private void ApplyHit()
+    {
+        var hit = Physics2D.OverlapBox(targetPos, hitBoxSize, 0f, hitLayers);
+        if (hit == null) 
+            return;
+
+        var hitbox = hit.GetComponent<ChariotHitbox>();
+
+        if (hitbox != null)
+        {
+            hitbox.ApplyDamage(damage);
+            //Debug.Log($"[Projectile] Hit {hit.gameObject.name} for {damage:F1} damage.");
         }
     }
 
@@ -107,7 +102,5 @@ public class Projectile : PooledObject
     {
         launched = false;
         traveled = 0f;
-        enemyManager = null;
-        targetStats = null;
     }
 }

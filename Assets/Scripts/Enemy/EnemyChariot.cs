@@ -2,26 +2,38 @@ using UnityEngine;
 
 /// <summary>
 /// 적 전차 풀링/라이프사이클 관리 전용.
-/// 전투 로직은 EnemyChariotCombat, HP/이동속도는 ChariotStats가 담당.
+/// 전투 로직은 EnemyChariotCombat, 스펙/HP는 Chariot이 담당.
 /// EnemyManager가 이 컴포넌트를 통해 스폰/회수를 관리합니다.
 /// </summary>
 public class EnemyChariot : MonoBehaviour
 {
-    private ChariotStats stats;
+    [Header("EXP")]
+    [SerializeField] private float expReward = 20f;
+
+    private Chariot chariot;
     private EnemyChariotCombat combat;
 
-    public bool IsDead => stats != null && stats.currentHP <= 0f;
+    public Chariot GetChariot() => chariot;
+    public bool IsDead => chariot != null && chariot.GetCurrentHP() <= 0f;
+
+    /// <summary>사망 시 플레이어 크루에게 분배될 EXP 양.</summary>
+    public float ExpReward => expReward;
 
     private void Awake()
     {
-        stats = GetComponent<ChariotStats>();
         combat = GetComponent<EnemyChariotCombat>();
     }
 
-    public void Init(Transform playerChariot, ChariotStats playerStats)
+    /// <summary>빌드 완료된 Chariot을 주입합니다.</summary>
+    public void SetChariot(Chariot model)
+    {
+        chariot = model;
+    }
+
+    public void Init(Transform playerChariot, Chariot playerChariotModel)
     {
         if (combat != null)
-            combat.Init(playerChariot, playerStats);
+            combat.Init(playerChariot, playerChariotModel);
     }
 
     /// <summary>공유 투사체 풀을 전투 컴포넌트에 전달합니다.</summary>
@@ -32,21 +44,21 @@ public class EnemyChariot : MonoBehaviour
     }
 
     /// <summary>풀에서 꺼낼 때 호출. HP/위치를 초기화합니다.</summary>
-    public void ResetForPool(Vector3 position, Transform playerChariot, ChariotStats playerStats)
+    public void ResetForPool(Vector3 position, Transform playerChariot, Chariot playerChariotModel)
     {
         transform.position = position;
         gameObject.SetActive(true);
 
-        if (stats != null)
-            stats.currentHP = stats.maxHP;
+        if (chariot != null)
+            chariot.ResetHP();
 
         if (combat != null)
-            combat.Init(playerChariot, playerStats);
+            combat.Init(playerChariot, playerChariotModel);
     }
 
     public void TakeDamage(float dmg)
     {
-        if (stats != null)
-            stats.TakeDamage(dmg);
+        if (chariot != null)
+            chariot.TakeDamage(dmg);
     }
 }

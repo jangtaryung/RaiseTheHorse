@@ -14,5 +14,5 @@ public interface ICrewCombat
     void ExecuteAttack(Vector3 targetPos, int targetId, EnemyManager enemyManager);
 
     /// <summary>적 전차가 플레이어를 공격할 때</summary>
-    void ExecuteAttack(Vector3 targetPos, ChariotStats targetStats);
+    void ExecuteAttack(Vector3 targetPos, Chariot targetChariot);
 }

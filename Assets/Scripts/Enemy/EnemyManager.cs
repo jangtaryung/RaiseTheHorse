@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,19 +7,25 @@ using UnityEngine;
 /// </summary>
 public class EnemyManager : MonoBehaviour
 {
+    /// <summary>적 전차가 사망할 때 발행됩니다. float = expReward.</summary>
+    public static event Action<float> OnEnemyDied;
+
     [Header("적 전차 프리팹")]
     public EnemyChariot enemyChariotPrefab;
 
     [Header("풀링")]
-    public int prewarmCount = 20;
+    [SerializeField] private int prewarmCount = 20;
 
     [Header("플레이어 전차 참조")]
     public Transform playerChariot;
-    public ChariotStats playerStats;
+    public ChariotStats playerChariotStats;
 
     [Header("적 투사체 공유 풀")]
     public ObjectPool enemyArrowPool;
     public ObjectPool enemySpearPool;
+
+    [Header("적 HP UI")]
+    public EnemyHPBarManager enemyHPBarManager;
 
     private readonly List<EnemyChariot> activeEnemies = new List<EnemyChariot>();
     private readonly Queue<EnemyChariot> pool = new Queue<EnemyChariot>();
@@ -26,15 +33,21 @@ public class EnemyManager : MonoBehaviour
     public int AliveCount => activeEnemies.Count;
 
     private int prewarmRemaining;
+    private Chariot playerChariotModel;
 
     private void Awake()
     {
         prewarmRemaining = prewarmCount;
     }
 
+    private void Start()
+    {
+        if (playerChariotStats != null)
+            playerChariotModel = playerChariotStats.GetChariot();
+    }
+
     private void Update()
     {
-        // prewarm을 프레임당 2개씩 분산 생성 (시작 시 병목 방지)
         if (prewarmRemaining > 0)
         {
             int batch = Mathf.Min(2, prewarmRemaining);
@@ -46,8 +59,6 @@ public class EnemyManager : MonoBehaviour
 
     private EnemyChariot CreateInstance()
     {
-        // 프리팹을 비활성 상태로 복제 → Awake() 체인이 실행되지 않음
-        // 나중에 SetActive(true) 될 때 Awake()가 최초 1회 실행됨
         bool prefabWasActive = enemyChariotPrefab.gameObject.activeSelf;
         enemyChariotPrefab.gameObject.SetActive(false);
 
@@ -57,30 +68,46 @@ public class EnemyManager : MonoBehaviour
         return enemy;
     }
 
+    private void ResolveChariot(EnemyChariot enemy)
+    {
+        if (enemy.GetChariot() != null) return;
+
+        var stats = enemy.GetComponent<ChariotStats>();
+        if (stats != null)
+            enemy.SetChariot(stats.GetChariot());
+    }
+
     public void Spawn(Vector3 position)
     {
         if (enemyChariotPrefab == null) return;
+
+        if (playerChariotModel == null && playerChariotStats != null)
+            playerChariotModel = playerChariotStats.GetChariot();
 
         EnemyChariot enemy;
 
         if (pool.Count > 0)
         {
             enemy = pool.Dequeue();
-            enemy.ResetForPool(position, playerChariot, playerStats);
+            enemy.ResetForPool(position, playerChariot, playerChariotModel);
+            ResolveChariot(enemy);
         }
         else
         {
             enemy = CreateInstance();
             enemy.gameObject.SetActive(true);
             enemy.transform.position = position;
-            enemy.Init(playerChariot, playerStats);
+            ResolveChariot(enemy);
+            enemy.Init(playerChariot, playerChariotModel);
         }
 
         enemy.SetPools(enemyArrowPool, enemySpearPool);
         activeEnemies.Add(enemy);
+
+        if (enemyHPBarManager != null)
+            enemyHPBarManager.Assign(enemy);
     }
 
-    /// <summary>가장 가까운 살아있는 적 전차를 찾습니다.</summary>
     public bool TryGetClosest(Vector3 from, out int id, out Vector3 position)
     {
         id = -1;
@@ -103,7 +130,6 @@ public class EnemyManager : MonoBehaviour
         return id >= 0;
     }
 
-    /// <summary>사거리 내 가장 가까운 살아있는 적 전차를 찾습니다.</summary>
     public bool TryGetClosestWithinRange(Vector3 from, float maxRange, out int id, out Vector3 position)
     {
         id = -1;
@@ -126,7 +152,6 @@ public class EnemyManager : MonoBehaviour
         return id >= 0;
     }
 
-    /// <summary>적 전차의 현재 위치를 가져옵니다.</summary>
     public bool TryGetPosition(int id, out Vector3 position)
     {
         position = default;
@@ -137,7 +162,6 @@ public class EnemyManager : MonoBehaviour
         return true;
     }
 
-    /// <summary>적 전차에 데미지를 적용합니다.</summary>
     public void ApplyDamage(int id, float damage)
     {
         if (id < 0 || id >= activeEnemies.Count) return;
@@ -148,7 +172,6 @@ public class EnemyManager : MonoBehaviour
 
     private void LateUpdate()
     {
-        // swap-and-pop: O(1) 제거
         for (int i = activeEnemies.Count - 1; i >= 0; i--)
         {
             var enemy = activeEnemies[i];
@@ -157,7 +180,13 @@ public class EnemyManager : MonoBehaviour
             if (!remove) continue;
 
             if (enemy != null)
+            {
+                OnEnemyDied?.Invoke(enemy.ExpReward);
+
+                if (enemyHPBarManager != null)
+                    enemyHPBarManager.Release(enemy);
                 pool.Enqueue(enemy);
+            }
 
             int last = activeEnemies.Count - 1;
             activeEnemies[i] = activeEnemies[last];

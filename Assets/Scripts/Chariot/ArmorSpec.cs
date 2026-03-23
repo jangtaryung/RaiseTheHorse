@@ -14,4 +14,16 @@ public class ArmorSpec
         Defense = defense;
         Weight = weight;
     }
+
+    // ===== 업그레이드 적용 메서드 =====
+
+    public void ApplyDefenseUpgrade(float delta)
+    {
+        Defense = Mathf.Max(0f, Defense + delta);
+    }
+
+    public void ApplyDurabilityUpgrade(float delta)
+    {
+        Durability = Mathf.Max(0f, Durability + delta);
+    }
 }

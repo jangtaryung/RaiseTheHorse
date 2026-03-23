@@ -29,6 +29,7 @@ public class LancerView : MonoBehaviour, ICrewCombat
 
     [Header("투사체 풀 (투창용)")]
     [SerializeField] private ObjectPool spearPool;
+    [SerializeField] private LayerMask targetLayers;
 
     public LancerPlayer RuntimeModel { get; private set; }
 
@@ -71,12 +72,13 @@ public class LancerView : MonoBehaviour, ICrewCombat
         return baseRange * (1f + skill * 0.01f);
     }
 
-    /// <summary>창병 공격력 * 창술 숙련 보정</summary>
+    /// <summary>창병 공격력 + 창 기본위력, 창술 숙련 보정</summary>
     public float GetDamage()
     {
         float atk = RuntimeModel != null ? RuntimeModel.GetAttack() : baseAttack;
+        float basePower = RuntimeModel != null ? RuntimeModel.GetBasePower() : spearBasePower;
         float skill = RuntimeModel != null ? RuntimeModel.LanceSkill : 0f;
-        return atk * (1f + skill * 0.01f);
+        return (atk + basePower) * (1f + skill * 0.01f);
     }
 
     /// <summary>
@@ -103,7 +105,7 @@ public class LancerView : MonoBehaviour, ICrewCombat
             var projectile = spearPool.Get(transform.position) as Projectile;
             if (projectile != null)
             {
-                projectile.Launch(transform.position, targetPos, damage, targetId, enemyManager);
+                projectile.Launch(transform.position, targetPos, damage, targetLayers);
                 return;
             }
             // 풀에서 못 꺼내면 즉시 데미지 폴백
@@ -118,7 +120,7 @@ public class LancerView : MonoBehaviour, ICrewCombat
     }
 
     /// <summary>적 창병이 플레이어를 공격. 거리에 따라 찌르기/투창.</summary>
-    public void ExecuteAttack(Vector3 targetPos, ChariotStats targetStats)
+    public void ExecuteAttack(Vector3 targetPos, Chariot targetChariot)
     {
         if (!IsReady()) return;
         float damage = GetDamage();
@@ -128,23 +130,16 @@ public class LancerView : MonoBehaviour, ICrewCombat
 
         if (dist <= meleeRange)
         {
-            // 근거리: 즉시 찌르기
-            targetStats.TakeDamage(damage);
+            targetChariot.TakeDamage(damage);
         }
         else if (spearPool != null)
         {
             var projectile = spearPool.Get(transform.position) as Projectile;
             if (projectile != null)
             {
-                projectile.Launch(transform.position, targetPos, damage, targetStats);
+                projectile.Launch(transform.position, targetPos, damage, targetLayers);
                 return;
             }
-            //targetStats.TakeDamage(damage);
-        }
-        else
-        {
-            // targetStats.TakeDamage(damage);
-            // Debug.Log($"[적 창병] 즉시 dmg:{damage:F1}");
         }
     }
 

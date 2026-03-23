@@ -1,13 +1,17 @@
 {
   "version": "2.0",
-  "lastUpdated": "2026-03-17T05:41:46.574Z",
+  "lastUpdated": "2026-03-20T09:38:06.697Z",
   "activeFeatures": [
     "Scripts",
     "Combat",
     "Chariot",
     "View",
     "Enemy",
-    "Core"
+    "Core",
+    "UI",
+    "Editor",
+    "Crew",
+    "Upgrade"
   ],
   "primaryFeature": "Scripts",
   "features": {
@@ -20,7 +24,7 @@
       "documents": {},
       "timestamps": {
         "started": "2026-03-17T00:24:24.763Z",
-        "lastUpdated": "2026-03-17T01:00:21.543Z"
+        "lastUpdated": "2026-03-18T02:44:40.292Z"
       },
       "lastFile": "d:\\workspace\\RaiseTheHorse\\Assets\\Scripts\\StatDebugUI.cs"
     },
@@ -33,9 +37,9 @@
       "documents": {},
       "timestamps": {
         "started": "2026-03-17T00:47:18.930Z",
-        "lastUpdated": "2026-03-17T05:41:12.948Z"
+        "lastUpdated": "2026-03-20T09:38:06.697Z"
       },
-      "lastFile": "d:\\workspace\\RaiseTheHorse\\Assets\\Scripts\\Combat\\ChariotCombat.cs"
+      "lastFile": "d:\\workspace\\RaiseTheHorse\\Assets\\Scripts\\Combat\\ChariotCrewController.cs"
     },
     "Chariot": {
       "phase": "do",
@@ -46,7 +50,7 @@
       "documents": {},
       "timestamps": {
         "started": "2026-03-17T00:59:05.999Z",
-        "lastUpdated": "2026-03-17T00:59:05.999Z"
+        "lastUpdated": "2026-03-18T07:10:14.019Z"
       },
       "lastFile": "d:\\workspace\\RaiseTheHorse\\Assets\\Scripts\\Chariot\\Chariot.cs"
     },
@@ -59,9 +63,9 @@
       "documents": {},
       "timestamps": {
         "started": "2026-03-17T00:59:26.417Z",
-        "lastUpdated": "2026-03-17T01:14:18.496Z"
+        "lastUpdated": "2026-03-20T04:49:55.850Z"
       },
-      "lastFile": "d:\\workspace\\RaiseTheHorse\\Assets\\Scripts\\View\\SwordsmanView.cs"
+      "lastFile": "d:\\workspace\\RaiseTheHorse\\Assets\\Scripts\\View\\LancerView.cs"
     },
     "Enemy": {
       "phase": "do",
@@ -72,9 +76,9 @@
       "documents": {},
       "timestamps": {
         "started": "2026-03-17T01:28:19.872Z",
-        "lastUpdated": "2026-03-17T05:41:46.574Z"
+        "lastUpdated": "2026-03-20T09:28:17.474Z"
       },
-      "lastFile": "d:\\workspace\\RaiseTheHorse\\Assets\\Scripts\\Enemy\\EnemyChariot.cs"
+      "lastFile": "d:\\workspace\\RaiseTheHorse\\Assets\\Scripts\\Enemy\\EnemyManager.cs"
     },
     "Core": {
       "phase": "do",
@@ -85,9 +89,61 @@
       "documents": {},
       "timestamps": {
         "started": "2026-03-17T04:09:00.201Z",
-        "lastUpdated": "2026-03-17T04:09:00.201Z"
+        "lastUpdated": "2026-03-20T09:28:48.357Z"
       },
-      "lastFile": "d:\\workspace\\RaiseTheHorse\\Assets\\Scripts\\Core\\InfiniteScrollBackground.cs"
+      "lastFile": "d:\\workspace\\RaiseTheHorse\\Assets\\Scripts\\Core\\ExperienceSystem.cs"
+    },
+    "UI": {
+      "phase": "do",
+      "phaseNumber": 3,
+      "matchRate": null,
+      "iterationCount": 0,
+      "requirements": [],
+      "documents": {},
+      "timestamps": {
+        "started": "2026-03-18T03:01:48.339Z",
+        "lastUpdated": "2026-03-20T09:30:19.795Z"
+      },
+      "lastFile": "d:\\workspace\\RaiseTheHorse\\Assets\\Scripts\\UI\\UpgradeSelectionUI.cs"
+    },
+    "Editor": {
+      "phase": "do",
+      "phaseNumber": 3,
+      "matchRate": null,
+      "iterationCount": 0,
+      "requirements": [],
+      "documents": {},
+      "timestamps": {
+        "started": "2026-03-18T07:37:22.625Z",
+        "lastUpdated": "2026-03-18T07:37:22.625Z"
+      },
+      "lastFile": "d:\\workspace\\RaiseTheHorse\\Assets\\Editor\\ReadOnlyDrawer.cs"
+    },
+    "Crew": {
+      "phase": "do",
+      "phaseNumber": 3,
+      "matchRate": null,
+      "iterationCount": 0,
+      "requirements": [],
+      "documents": {},
+      "timestamps": {
+        "started": "2026-03-20T04:51:06.586Z",
+        "lastUpdated": "2026-03-20T04:51:09.062Z"
+      },
+      "lastFile": "d:\\workspace\\RaiseTheHorse\\Assets\\Scripts\\Crew\\LancerPlayer.cs"
+    },
+    "Upgrade": {
+      "phase": "do",
+      "phaseNumber": 3,
+      "matchRate": null,
+      "iterationCount": 0,
+      "requirements": [],
+      "documents": {},
+      "timestamps": {
+        "started": "2026-03-20T09:31:20.180Z",
+        "lastUpdated": "2026-03-20T09:31:20.180Z"
+      },
+      "lastFile": "d:\\workspace\\RaiseTheHorse\\Assets\\Scripts\\Upgrade\\UpgradeOption.cs"
     }
   },
   "pipeline": {
@@ -98,7 +154,7 @@
   "session": {
     "startedAt": "2026-03-17T00:19:55.653Z",
     "onboardingCompleted": false,
-    "lastActivity": "2026-03-17T05:41:46.574Z"
+    "lastActivity": "2026-03-20T09:38:06.697Z"
   },
   "history": [
     {
@@ -362,6 +418,1056 @@
     {
       "timestamp": "2026-03-17T05:41:46.574Z",
       "feature": "Enemy",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-17T08:30:47.983Z",
+      "feature": "Combat",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-17T08:40:16.684Z",
+      "feature": "Combat",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-17T08:57:21.303Z",
+      "feature": "Combat",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-17T08:57:31.290Z",
+      "feature": "Combat",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-17T08:57:41.878Z",
+      "feature": "Combat",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-17T08:57:54.752Z",
+      "feature": "Enemy",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-17T09:04:58.247Z",
+      "feature": "Combat",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-17T09:05:28.298Z",
+      "feature": "Combat",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-17T09:06:23.245Z",
+      "feature": "View",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-17T09:07:28.048Z",
+      "feature": "View",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-17T09:08:12.694Z",
+      "feature": "View",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-17T09:09:17.566Z",
+      "feature": "Combat",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-17T09:15:49.557Z",
+      "feature": "Combat",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-17T09:16:09.242Z",
+      "feature": "Combat",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-17T09:16:42.562Z",
+      "feature": "View",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-17T09:17:53.413Z",
+      "feature": "View",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-17T09:18:06.083Z",
+      "feature": "View",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-17T09:18:38.714Z",
+      "feature": "Enemy",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-17T09:21:03.689Z",
+      "feature": "Enemy",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-17T09:21:23.180Z",
+      "feature": "Enemy",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-17T09:36:00.378Z",
+      "feature": "View",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-17T09:36:36.381Z",
+      "feature": "View",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-17T09:38:45.261Z",
+      "feature": "Enemy",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-17T09:39:06.049Z",
+      "feature": "Enemy",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-17T09:39:17.585Z",
+      "feature": "Enemy",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-17T09:39:29.240Z",
+      "feature": "Enemy",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-17T14:06:50.123Z",
+      "feature": "Enemy",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-17T14:14:47.193Z",
+      "feature": "Combat",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-17T14:15:13.184Z",
+      "feature": "Enemy",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-17T14:15:25.935Z",
+      "feature": "Enemy",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-17T14:19:06.638Z",
+      "feature": "Enemy",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-17T14:23:05.597Z",
+      "feature": "Combat",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-17T14:23:34.282Z",
+      "feature": "View",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-17T14:23:55.709Z",
+      "feature": "View",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-17T14:24:20.680Z",
+      "feature": "View",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-17T14:24:32.466Z",
+      "feature": "View",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-17T14:25:28.806Z",
+      "feature": "View",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-17T14:25:58.924Z",
+      "feature": "View",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-17T14:26:13.696Z",
+      "feature": "View",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-17T14:26:58.486Z",
+      "feature": "View",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-17T14:29:47.268Z",
+      "feature": "Combat",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-17T14:50:53.395Z",
+      "feature": "View",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-17T14:51:10.199Z",
+      "feature": "View",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-17T14:51:53.124Z",
+      "feature": "View",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-17T15:03:02.568Z",
+      "feature": "Combat",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-17T15:03:13.020Z",
+      "feature": "Combat",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-18T02:16:59.188Z",
+      "feature": "Scripts",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-18T02:22:22.295Z",
+      "feature": "Combat",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-18T02:22:41.694Z",
+      "feature": "Scripts",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-18T02:29:26.874Z",
+      "feature": "Combat",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-18T02:29:33.572Z",
+      "feature": "Combat",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-18T02:29:37.857Z",
+      "feature": "Enemy",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-18T02:29:54.486Z",
+      "feature": "Enemy",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-18T02:29:57.212Z",
+      "feature": "Scripts",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-18T02:30:13.939Z",
+      "feature": "Scripts",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-18T02:30:33.540Z",
+      "feature": "Scripts",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-18T02:35:50.515Z",
+      "feature": "Combat",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-18T02:35:54.096Z",
+      "feature": "Combat",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-18T02:35:57.512Z",
+      "feature": "Scripts",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-18T02:39:34.088Z",
+      "feature": "Scripts",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-18T02:42:43.362Z",
+      "feature": "Scripts",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-18T02:42:51.203Z",
+      "feature": "Scripts",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-18T02:44:31.025Z",
+      "feature": "Combat",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-18T02:44:34.411Z",
+      "feature": "Combat",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-18T02:44:37.285Z",
+      "feature": "Scripts",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-18T02:44:40.292Z",
+      "feature": "Scripts",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-18T02:52:18.942Z",
+      "feature": "Combat",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-18T02:52:22.449Z",
+      "feature": "Combat",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-18T02:52:24.859Z",
+      "feature": "Combat",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-18T02:52:39.734Z",
+      "feature": "Combat",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-18T02:59:06.632Z",
+      "feature": "Enemy",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-18T02:59:14.159Z",
+      "feature": "Enemy",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-18T03:01:48.339Z",
+      "feature": "UI",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-18T03:08:17.713Z",
+      "feature": "Enemy",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-18T03:08:45.601Z",
+      "feature": "UI",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-18T03:08:55.933Z",
+      "feature": "Enemy",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-18T03:08:59.502Z",
+      "feature": "Enemy",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-18T03:09:05.657Z",
+      "feature": "Enemy",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-18T03:17:33.656Z",
+      "feature": "Combat",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-18T03:17:37.474Z",
+      "feature": "Enemy",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-18T05:53:44.351Z",
+      "feature": "UI",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-18T05:54:01.620Z",
+      "feature": "UI",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-18T05:54:05.671Z",
+      "feature": "UI",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-18T05:54:08.764Z",
+      "feature": "UI",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-18T06:10:12.472Z",
+      "feature": "Combat",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-18T06:12:29.088Z",
+      "feature": "Combat",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-18T06:15:30.275Z",
+      "feature": "Combat",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-18T06:15:47.856Z",
+      "feature": "Combat",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-18T06:17:43.941Z",
+      "feature": "Combat",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-18T06:18:09.323Z",
+      "feature": "Combat",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-18T06:21:54.070Z",
+      "feature": "Combat",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-18T06:22:07.304Z",
+      "feature": "UI",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-18T06:22:09.869Z",
+      "feature": "UI",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-18T06:22:13.320Z",
+      "feature": "Enemy",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-18T06:22:15.846Z",
+      "feature": "Enemy",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-18T06:22:18.477Z",
+      "feature": "Enemy",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-18T06:26:48.129Z",
+      "feature": "Enemy",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-18T06:26:51.407Z",
+      "feature": "Enemy",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-18T06:26:53.730Z",
+      "feature": "Enemy",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-18T06:26:56.197Z",
+      "feature": "Combat",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-18T06:26:59.541Z",
+      "feature": "Enemy",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-18T06:27:02.955Z",
+      "feature": "Core",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-18T06:46:53.946Z",
+      "feature": "Combat",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-18T06:48:00.529Z",
+      "feature": "Combat",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-18T06:58:40.040Z",
+      "feature": "Combat",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-18T06:58:50.525Z",
+      "feature": "Enemy",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-18T07:10:14.019Z",
+      "feature": "Chariot",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-18T07:11:28.199Z",
+      "feature": "Combat",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-18T07:12:03.465Z",
+      "feature": "Combat",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-18T07:12:41.524Z",
+      "feature": "View",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-18T07:12:45.749Z",
+      "feature": "View",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-18T07:12:49.904Z",
+      "feature": "View",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-18T07:13:32.357Z",
+      "feature": "Combat",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-18T07:14:14.734Z",
+      "feature": "Enemy",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-18T07:14:52.078Z",
+      "feature": "Enemy",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-18T07:15:22.633Z",
+      "feature": "Enemy",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-18T07:18:58.281Z",
+      "feature": "Combat",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-18T07:19:39.281Z",
+      "feature": "UI",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-18T07:20:17.495Z",
+      "feature": "UI",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-18T07:20:38.863Z",
+      "feature": "UI",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-18T07:20:42.099Z",
+      "feature": "UI",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-18T07:25:19.531Z",
+      "feature": "UI",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-18T07:36:47.929Z",
+      "feature": "Core",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-18T07:37:22.625Z",
+      "feature": "Editor",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-18T07:38:42.639Z",
+      "feature": "Combat",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-18T07:38:46.535Z",
+      "feature": "Combat",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-18T07:39:14.445Z",
+      "feature": "Combat",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-18T07:39:16.880Z",
+      "feature": "Combat",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-18T07:41:14.844Z",
+      "feature": "Enemy",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-18T07:41:20.117Z",
+      "feature": "Enemy",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-20T03:46:16.043Z",
+      "feature": "Enemy",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-20T03:46:29.898Z",
+      "feature": "Enemy",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-20T03:46:46.304Z",
+      "feature": "Enemy",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-20T03:46:56.686Z",
+      "feature": "Enemy",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-20T03:49:08.201Z",
+      "feature": "Enemy",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-20T03:49:15.097Z",
+      "feature": "Enemy",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-20T03:49:25.318Z",
+      "feature": "UI",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-20T03:52:44.647Z",
+      "feature": "Combat",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-20T03:52:53.989Z",
+      "feature": "Enemy",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-20T03:53:05.039Z",
+      "feature": "Combat",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-20T03:53:07.437Z",
+      "feature": "Enemy",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-20T03:53:10.763Z",
+      "feature": "UI",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-20T03:53:23.695Z",
+      "feature": "UI",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-20T04:00:39.902Z",
+      "feature": "Combat",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-20T04:02:04.964Z",
+      "feature": "Combat",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-20T04:02:41.635Z",
+      "feature": "View",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-20T04:02:59.868Z",
+      "feature": "View",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-20T04:03:07.668Z",
+      "feature": "View",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-20T04:03:28.487Z",
+      "feature": "View",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-20T04:04:10.493Z",
+      "feature": "Combat",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-20T04:04:26.511Z",
+      "feature": "Enemy",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-20T04:14:46.777Z",
+      "feature": "Combat",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-20T04:14:55.816Z",
+      "feature": "Combat",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-20T04:15:10.155Z",
+      "feature": "View",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-20T04:15:16.098Z",
+      "feature": "View",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-20T04:15:52.204Z",
+      "feature": "View",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-20T04:16:07.369Z",
+      "feature": "View",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-20T04:21:38.700Z",
+      "feature": "Combat",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-20T04:27:57.920Z",
+      "feature": "Enemy",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-20T04:40:10.657Z",
+      "feature": "UI",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-20T04:49:52.702Z",
+      "feature": "View",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-20T04:49:55.850Z",
+      "feature": "View",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-20T04:51:06.586Z",
+      "feature": "Crew",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-20T04:51:09.062Z",
+      "feature": "Crew",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-20T09:25:06.551Z",
+      "feature": "Combat",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-20T09:25:49.312Z",
+      "feature": "Combat",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-20T09:26:32.766Z",
+      "feature": "Enemy",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-20T09:27:26.367Z",
+      "feature": "Enemy",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-20T09:28:17.474Z",
+      "feature": "Enemy",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-20T09:28:33.591Z",
+      "feature": "Core",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-20T09:28:48.357Z",
+      "feature": "Core",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-20T09:30:19.795Z",
+      "feature": "UI",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-20T09:31:20.180Z",
+      "feature": "Upgrade",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-20T09:36:53.610Z",
+      "feature": "Combat",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-20T09:38:06.697Z",
+      "feature": "Combat",
       "phase": "do",
       "action": "updated"
     }

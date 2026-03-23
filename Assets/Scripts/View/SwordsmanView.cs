@@ -81,13 +81,13 @@ public class SwordsmanView : MonoBehaviour, ICrewCombat
     }
 
     /// <summary>적 검병이 플레이어를 베기. 즉시 데미지.</summary>
-    public void ExecuteAttack(Vector3 targetPos, ChariotStats targetStats)
+    public void ExecuteAttack(Vector3 targetPos, Chariot targetChariot)
     {
         if (!IsReady()) return;
         float damage = GetDamage();
         ConsumeAttack();
 
-        targetStats.TakeDamage(damage);
+        targetChariot.TakeDamage(damage);
     }
 
     private static void ForceSetLevel(CrewMemberBase member, int targetLevel)

@@ -14,4 +14,16 @@ public class WheelSpec
         CollisionDamage = collisionDamage;
         Weight = weight;
     }
+
+    // ===== 업그레이드 적용 메서드 =====
+
+    public void ApplyAccelUpgrade(float delta)
+    {
+        Accel = Mathf.Max(0f, Accel + delta);
+    }
+
+    public void ApplyCollisionUpgrade(float delta)
+    {
+        CollisionDamage = Mathf.Max(0f, CollisionDamage + delta);
+    }
 }

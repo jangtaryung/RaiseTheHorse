@@ -26,6 +26,7 @@ public class ArcherView : MonoBehaviour, ICrewCombat
 
     [Header("투사체 풀")]
     [SerializeField] private ObjectPool arrowPool;
+    [SerializeField] private LayerMask targetLayers;
 
     public ArcherPlayer RuntimeModel { get; private set; }
 
@@ -68,12 +69,13 @@ public class ArcherView : MonoBehaviour, ICrewCombat
         return baseRange * (1f + skill * 0.01f);
     }
 
-    /// <summary>궁병 공격력 * 궁술 숙련 보정</summary>
+    /// <summary>궁병 공격력 + 활 기본위력, 궁술 숙련 보정</summary>
     public float GetDamage()
     {
         float atk = RuntimeModel != null ? RuntimeModel.GetAttack() : baseAttack;
+        float basePower = RuntimeModel != null ? RuntimeModel.GetBasePower() : bowBasePower;
         float skill = RuntimeModel != null ? RuntimeModel.ArcherySkill : 0f;
-        return atk * (1f + skill * 0.01f);
+        return (atk + basePower) * (1f + skill * 0.01f);
     }
 
     /// <summary>화살을 발사합니다. 풀이 없으면 즉시 데미지.</summary>
@@ -88,7 +90,7 @@ public class ArcherView : MonoBehaviour, ICrewCombat
             var projectile = arrowPool.Get(transform.position) as Projectile;
             if (projectile != null)
             {
-                projectile.Launch(transform.position, targetPos, damage, targetId, enemyManager);
+                projectile.Launch(transform.position, targetPos, damage, targetLayers);
                 return;
             }
         }
@@ -102,7 +104,7 @@ public class ArcherView : MonoBehaviour, ICrewCombat
     }
 
     /// <summary>적 궁병이 플레이어를 향해 화살 발사.</summary>
-    public void ExecuteAttack(Vector3 targetPos, ChariotStats targetStats)
+    public void ExecuteAttack(Vector3 targetPos, Chariot targetChariot)
     {
         if (!IsReady()) return;
         float damage = GetDamage();
@@ -113,12 +115,10 @@ public class ArcherView : MonoBehaviour, ICrewCombat
             var projectile = arrowPool.Get(transform.position) as Projectile;
             if (projectile != null)
             {
-                projectile.Launch(transform.position, targetPos, damage, targetStats);
+                projectile.Launch(transform.position, targetPos, damage, targetLayers);
                 return;
             }
         }
-
-        // targetStats.TakeDamage(damage); // 풀링 투사체로만 데미지
     }
 
     private static void ForceSetLevel(CrewMemberBase member, int targetLevel)

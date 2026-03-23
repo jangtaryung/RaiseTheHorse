@@ -21,6 +21,12 @@ public class BattleSpawner : MonoBehaviour
 
     private void Update()
     {
+        // Battle 상태가 아니면 스폰 타이머를 진행하지 않음
+        // (Time.timeScale = 0 으로도 자연히 멈추지만, 명시적으로 방어)
+        if (GameStateManager.Instance != null &&
+            GameStateManager.Instance.CurrentState != GameState.Battle)
+            return;
+
         spawnTimer += Time.deltaTime;
 
         if (spawnTimer >= spawnInterval)
