@@ -57,10 +57,11 @@ public class EnemyChariotCombat : MonoBehaviour, IChariotCombat
         cachedArcherMax = cachedLancerMax + (archerView != null ? archerView.GetEffectiveRange() : 0f);
     }
 
-    public void SetPools(ObjectPool arrowPool, ObjectPool spearPool)
+    public void SetPools(ObjectPool arrowPool, ObjectPool spearPool, ObjectPool swordPool)
     {
         if (archerView != null) archerView.SetPool(arrowPool);
         if (lancerView != null) lancerView.SetPool(spearPool);
+        if (swordsmanView != null) swordsmanView.SetPool(swordPool);
     }
 
     private void Update()
@@ -83,7 +84,7 @@ public class EnemyChariotCombat : MonoBehaviour, IChariotCombat
         if (dist <= cachedSwordsmanMax)
             TryAttack(swordsmanView);
         else if (dist <= cachedLancerMax)
-            TryAttack(lancerView);
+            TryLancerAttack();
         else if (dist <= cachedArcherMax)
             TryAttack(archerView);
     }
@@ -107,5 +108,16 @@ public class EnemyChariotCombat : MonoBehaviour, IChariotCombat
     {
         if (crew == null || !crew.IsReady()) return;
         crew.ExecuteAttack(target.position, targetChariot);
+    }
+
+    private void TryLancerAttack()
+    {
+        if (lancerView == null || !lancerView.IsReady()) return;
+        lancerView.ExecuteAttack(target.position, targetChariot);
+
+        // 창병 넉백: 플레이어를 공격자 반대 방향으로 밀어냄
+        float knockback = lancerView.GetKnockbackDistance();
+        float dirX = target.position.x > transform.position.x ? 1f : -1f;
+        target.position += new Vector3(dirX * knockback, 0f, 0f);
     }
 }

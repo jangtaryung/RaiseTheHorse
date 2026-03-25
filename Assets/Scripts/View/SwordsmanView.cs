@@ -24,9 +24,15 @@ public class SwordsmanView : MonoBehaviour, ICrewCombat
     [Header("전투")]
     [SerializeField] private float attackInterval = 0.6f;
 
+    [Header("무기 연출 풀")]
+    [SerializeField] private ObjectPool swordPool;
+
     public SwordsmanPlayer RuntimeModel { get; private set; }
 
     private float attackTimer;
+
+    /// <summary>런타임에 무기 연출 풀을 주입합니다 (적 전차용 공유 풀).</summary>
+    public void SetPool(ObjectPool pool) => swordPool = pool;
 
     public SwordsmanPlayer Build()
     {
@@ -70,7 +76,7 @@ public class SwordsmanView : MonoBehaviour, ICrewCombat
         return (atk + basePower) * (1f + skill * 0.04f);
     }
 
-    /// <summary>근접 베기. 즉시 데미지.</summary>
+    /// <summary>근접 베기. 즉시 데미지 + 베기 비주얼.</summary>
     public void ExecuteAttack(Vector3 targetPos, int targetId, EnemyManager enemyManager)
     {
         if (!IsReady()) return;
@@ -78,9 +84,10 @@ public class SwordsmanView : MonoBehaviour, ICrewCombat
         ConsumeAttack();
 
         enemyManager.ApplyDamage(targetId, damage);
+        PlaySlashVisual(targetPos);
     }
 
-    /// <summary>적 검병이 플레이어를 베기. 즉시 데미지.</summary>
+    /// <summary>적 검병이 플레이어를 베기. 즉시 데미지 + 베기 비주얼.</summary>
     public void ExecuteAttack(Vector3 targetPos, Chariot targetChariot)
     {
         if (!IsReady()) return;
@@ -88,6 +95,15 @@ public class SwordsmanView : MonoBehaviour, ICrewCombat
         ConsumeAttack();
 
         targetChariot.TakeDamage(damage);
+        PlaySlashVisual(targetPos);
+    }
+
+    private void PlaySlashVisual(Vector3 targetPos)
+    {
+        if (swordPool == null) return;
+        var sword = swordPool.Get(transform.position) as SwordSlash;
+        if (sword != null)
+            sword.Slash(transform.position, targetPos);
     }
 
     private static void ForceSetLevel(CrewMemberBase member, int targetLevel)

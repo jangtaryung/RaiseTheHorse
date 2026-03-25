@@ -20,9 +20,10 @@ public class EnemyManager : MonoBehaviour
     public Transform playerChariot;
     public ChariotStats playerChariotStats;
 
-    [Header("적 투사체 공유 풀")]
+    [Header("적 무기 연출 공유 풀")]
     public ObjectPool enemyArrowPool;
     public ObjectPool enemySpearPool;
+    public ObjectPool enemySwordPool;
 
     [Header("적 HP UI")]
     public EnemyHPBarManager enemyHPBarManager;
@@ -101,7 +102,7 @@ public class EnemyManager : MonoBehaviour
             enemy.Init(playerChariot, playerChariotModel);
         }
 
-        enemy.SetPools(enemyArrowPool, enemySpearPool);
+        enemy.SetPools(enemyArrowPool, enemySpearPool, enemySwordPool);
         activeEnemies.Add(enemy);
 
         if (enemyHPBarManager != null)

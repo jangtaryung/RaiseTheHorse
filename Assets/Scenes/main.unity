@@ -709,7 +709,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5f2730e671a79147893ff28958536ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ObjectPool
-  prefab: {fileID: -227530390011382033, guid: 44e805105e00a24458c518ca56cd7549, type: 3}
+  prefab: {fileID: 90989094154731400, guid: 44e805105e00a24458c518ca56cd7549, type: 3}
   initialSize: 10
 --- !u!1 &260990111
 GameObject:
@@ -1657,7 +1657,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5f2730e671a79147893ff28958536ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ObjectPool
-  prefab: {fileID: -227530390011382033, guid: 44e805105e00a24458c518ca56cd7549, type: 3}
+  prefab: {fileID: 90989094154731400, guid: 44e805105e00a24458c518ca56cd7549, type: 3}
   initialSize: 50
 --- !u!4 &648750008
 Transform:
@@ -2085,6 +2085,52 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 819552251}
   m_CullTransparentMesh: 1
+--- !u!1 &865075152
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 865075153}
+  - component: {fileID: 865075154}
+  m_Layer: 17
+  m_Name: SwordsPool
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &865075153
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 865075152}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -1.1000004, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 906866255}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &865075154
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 865075152}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e5f2730e671a79147893ff28958536ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ObjectPool
+  prefab: {fileID: 4084141150262319120, guid: 6a32a104ee29a0647be1183f2a58cfee, type: 3}
+  initialSize: 10
 --- !u!1 &878080118
 GameObject:
   m_ObjectHideFlags: 0
@@ -2163,6 +2209,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 878080118}
   m_CullTransparentMesh: 1
+--- !u!4 &906866255 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7966780659225472578, guid: c804d3c61df782a44aefc11afcb73a3d, type: 3}
+  m_PrefabInstance: {fileID: 960403202}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &960403202
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2187,6 +2238,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 17
       objectReference: {fileID: 0}
+    - target: {fileID: 1311784601594477855, guid: c804d3c61df782a44aefc11afcb73a3d, type: 3}
+      propertyPath: swordPool
+      value: 
+      objectReference: {fileID: 865075154}
     - target: {fileID: 1311784601594477855, guid: c804d3c61df782a44aefc11afcb73a3d, type: 3}
       propertyPath: baseAttack
       value: 40
@@ -2396,8 +2451,16 @@ PrefabInstance:
       value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 7019881311641759895, guid: c804d3c61df782a44aefc11afcb73a3d, type: 3}
+      propertyPath: meleeRange
+      value: 4.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7019881311641759895, guid: c804d3c61df782a44aefc11afcb73a3d, type: 3}
       propertyPath: baseDefense
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7019881311641759895, guid: c804d3c61df782a44aefc11afcb73a3d, type: 3}
+      propertyPath: baseKnockback
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 7019881311641759895, guid: c804d3c61df782a44aefc11afcb73a3d, type: 3}
       propertyPath: spearBasePower
@@ -2456,6 +2519,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 4972968211754160326, guid: c804d3c61df782a44aefc11afcb73a3d, type: 3}
       insertIndex: -1
       addedObject: {fileID: 247872769}
+    - targetCorrespondingSourceObject: {fileID: 7966780659225472578, guid: c804d3c61df782a44aefc11afcb73a3d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 865075153}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 1490096011495068762, guid: c804d3c61df782a44aefc11afcb73a3d, type: 3}
       insertIndex: 5
@@ -3613,6 +3679,7 @@ Transform:
   m_Children:
   - {fileID: 1932040874}
   - {fileID: 648750008}
+  - {fileID: 2109287029}
   m_Father: {fileID: 260990112}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1757778445
@@ -3633,6 +3700,7 @@ MonoBehaviour:
   playerChariotStats: {fileID: 960403204}
   enemyArrowPool: {fileID: 1932040875}
   enemySpearPool: {fileID: 648750007}
+  enemySwordPool: {fileID: 2109287030}
   enemyHPBarManager: {fileID: 622101880}
 --- !u!1 &1834117394
 GameObject:
@@ -4240,6 +4308,52 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2074693119}
   m_CullTransparentMesh: 1
+--- !u!1 &2109287028
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2109287029}
+  - component: {fileID: 2109287030}
+  m_Layer: 15
+  m_Name: EnemySwordPool
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2109287029
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2109287028}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1757778444}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2109287030
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2109287028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e5f2730e671a79147893ff28958536ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ObjectPool
+  prefab: {fileID: 4084141150262319120, guid: 6a32a104ee29a0647be1183f2a58cfee, type: 3}
+  initialSize: 50
 --- !u!1 &2115004733
 GameObject:
   m_ObjectHideFlags: 0

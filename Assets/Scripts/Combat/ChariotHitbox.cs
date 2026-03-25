@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
@@ -18,6 +19,7 @@ public class ChariotHitbox : MonoBehaviour
 
     private Chariot chariot;
     private float collisionTimer;
+    private static readonly List<Collider2D> hitBuffer = new List<Collider2D>(16);
 
     public Vector2 BoxSize => boxSize;
     public Vector2 BoxOffset => boxOffset;
@@ -51,13 +53,18 @@ public class ChariotHitbox : MonoBehaviour
         if (chariotCollisionLayers == 0) return;
 
         Vector2 center = (Vector2)transform.position + boxOffset;
-        var hits = Physics2D.OverlapBoxAll(center, boxSize, 0f, chariotCollisionLayers);
+        var filter = new ContactFilter2D();
+        filter.SetLayerMask(chariotCollisionLayers);
+        filter.useLayerMask = true;
 
-        for (int i = 0; i < hits.Length; i++)
+        hitBuffer.Clear();
+        int count = Physics2D.OverlapBox(center, boxSize, 0f, filter, hitBuffer);
+
+        for (int i = 0; i < count; i++)
         {
-            if (hits[i].gameObject == gameObject) continue;
+            if (hitBuffer[i].gameObject == gameObject) continue;
 
-            var otherHitbox = hits[i].GetComponent<ChariotHitbox>();
+            var otherHitbox = hitBuffer[i].GetComponent<ChariotHitbox>();
             if (otherHitbox == null || otherHitbox.chariot == null) continue;
 
             float collisionDmg = chariot.GetCollisionDamage();

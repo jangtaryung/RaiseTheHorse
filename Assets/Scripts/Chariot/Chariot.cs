@@ -46,6 +46,12 @@ public class Chariot
         currentHP = GetMaxHP();
     }
 
+    /// <summary>현재 HP를 MaxHP까지 회복합니다. Durability 업그레이드 후 호출 가능.</summary>
+    public void HealToMax()
+    {
+        currentHP = GetMaxHP();
+    }
+
     public void TakeDamage(float dmg)
     {
         if (godMode)

@@ -36,11 +36,11 @@ public class EnemyChariot : MonoBehaviour
             combat.Init(playerChariot, playerChariotModel);
     }
 
-    /// <summary>공유 투사체 풀을 전투 컴포넌트에 전달합니다.</summary>
-    public void SetPools(ObjectPool arrowPool, ObjectPool spearPool)
+    /// <summary>공유 무기 연출 풀을 전투 컴포넌트에 전달합니다.</summary>
+    public void SetPools(ObjectPool arrowPool, ObjectPool spearPool, ObjectPool swordPool)
     {
         if (combat != null)
-            combat.SetPools(arrowPool, spearPool);
+            combat.SetPools(arrowPool, spearPool, swordPool);
     }
 
     /// <summary>풀에서 꺼낼 때 호출. HP/위치를 초기화합니다.</summary>

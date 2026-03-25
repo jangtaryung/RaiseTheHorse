@@ -27,8 +27,9 @@ public class LancerView : MonoBehaviour, ICrewCombat
     [Header("넉백")]
     [SerializeField] private float baseKnockback = 1.5f;
 
-    [Header("근거리/원거리 경계")]
-    [SerializeField] private float meleeRange = 2.0f;
+    // TODO: 원거리 투창 비활성화 — meleeRange/투사체 관련 일시 주석
+    // [Header("근거리/원거리 경계")]
+    // [SerializeField] private float meleeRange = 2.0f;
 
     [Header("투사체 풀 (투창용)")]
     [SerializeField] private ObjectPool spearPool;
@@ -102,24 +103,27 @@ public class LancerView : MonoBehaviour, ICrewCombat
         float damage = GetDamage();
         ConsumeAttack();
 
-        float dist = Mathf.Abs(targetPos.x - transform.position.x);
-
-        if (dist <= meleeRange)
-        {
+        // float dist = Mathf.Abs(targetPos.x - transform.position.x);
+        //
+        // if (dist <= meleeRange)
+        // {
             // 근거리: 즉시 찌르기 + 넉백
             enemyManager.ApplyDamage(targetId, damage);
             enemyManager.ApplyKnockback(targetId, GetKnockbackDistance(), transform.position);
-        }
-        else if (spearPool != null)
-        {
-            // 원거리: 투창 (넉백은 근거리에서만 적용)
-            var projectile = spearPool.Get(transform.position) as Projectile;
-            if (projectile != null)
-            {
-                projectile.Launch(transform.position, targetPos, damage, targetLayers);
-                return;
-            }
-        }
+        // }
+        // else if (spearPool != null)
+        // {
+        //     // 원거리: 투창 (넉백은 근거리에서만 적용)
+        //     var projectile = spearPool.Get(transform.position) as Projectile;
+        //     if (projectile != null)
+        //     {
+        //         projectile.Launch(transform.position, targetPos, damage, targetLayers);
+        //         return;
+        //     }
+        // }
+
+        // 찌르기 비주얼 연출
+        PlayThrustVisual(targetPos);
     }
 
     /// <summary>적 창병이 플레이어를 공격. 거리에 따라 찌르기/투창.</summary>
@@ -129,21 +133,32 @@ public class LancerView : MonoBehaviour, ICrewCombat
         float damage = GetDamage();
         ConsumeAttack();
 
-        float dist = Mathf.Abs(targetPos.x - transform.position.x);
-
-        if (dist <= meleeRange)
-        {
+        // float dist = Mathf.Abs(targetPos.x - transform.position.x);
+        //
+        // if (dist <= meleeRange)
+        // {
             targetChariot.TakeDamage(damage);
-        }
-        else if (spearPool != null)
-        {
-            var projectile = spearPool.Get(transform.position) as Projectile;
-            if (projectile != null)
-            {
-                projectile.Launch(transform.position, targetPos, damage, targetLayers);
-                return;
-            }
-        }
+        // }
+        // else if (spearPool != null)
+        // {
+        //     var projectile = spearPool.Get(transform.position) as Projectile;
+        //     if (projectile != null)
+        //     {
+        //         projectile.Launch(transform.position, targetPos, damage, targetLayers);
+        //         return;
+        //     }
+        // }
+
+        // 찌르기 비주얼 연출
+        PlayThrustVisual(targetPos);
+    }
+
+    private void PlayThrustVisual(Vector3 targetPos)
+    {
+        if (spearPool == null) return;
+        var spear = spearPool.Get(transform.position) as SpearThrust;
+        if (spear != null)
+            spear.Thrust(transform.position, targetPos);
     }
 
     private static void ForceSetLevel(CrewMemberBase member, int targetLevel)
